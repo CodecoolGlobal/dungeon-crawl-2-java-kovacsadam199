@@ -16,6 +16,8 @@ public abstract class Actor implements Drawable {
     public void move(int dx, int dy) {
         Cell nextCell = cell.getNeighbor(dx, dy);
         if (nextCell.getType() == CellType.WALL || nextCell.getType()== CellType.EMPTY || nextCell.getType()== CellType.SKELETON){
+            if(cell.getActor() instanceof Player && nextCell.getType()==CellType.SKELETON){ // or other monster type can come here
+                    cell.getActor().attack(dx,dy);}
             nextCell = cell;
             cell.setActor(this);
         }
@@ -43,5 +45,20 @@ public abstract class Actor implements Drawable {
 
     public void loseHealth(int lostAmount) {
         health -= lostAmount;
+        if (health <= 0){
+            cell.setType(CellType.FLOOR);
+            cell.setActor(null);}
     }
+
+    public void attack(int x, int y){
+        Actor enemy = cell.getNeighbor(x,y).getActor();
+        enemy.loseHealth(5);
+        if(enemy.getHealth()>=1){
+            loseHealth(2);
+        }
+
+    }
+//    public void attack(Sword sword){
+//
+//    }
 }

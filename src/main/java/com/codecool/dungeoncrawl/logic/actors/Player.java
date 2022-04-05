@@ -21,17 +21,18 @@ public class Player extends Actor {
        }
 
     }
-    public void attack(){
-        Actor enemy = getCell().getNeighbor();
 
-
-    }
 
     public boolean pickUp(int dx, int dy){
         Cell nextCell = this.getCell().getNeighbor(dx, dy);
         return (nextCell.getType() == CellType.SKELETON);
 
     }
+
+//    public Sword getSword(){
+//        return sword;
+    //TODO: get sword from hashmap of items
+//    }
 
 
 }
