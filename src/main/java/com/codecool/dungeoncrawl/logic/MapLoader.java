@@ -1,7 +1,6 @@
 package com.codecool.dungeoncrawl.logic;
 
-import com.codecool.dungeoncrawl.logic.actors.Player;
-import com.codecool.dungeoncrawl.logic.actors.Skeleton;
+import com.codecool.dungeoncrawl.logic.actors.*;
 import com.codecool.dungeoncrawl.logic.items.Key;
 import com.codecool.dungeoncrawl.logic.items.Sword;
 
@@ -33,6 +32,9 @@ public class MapLoader {
                         case '.':
                             cell.setType(CellType.FLOOR);
                             break;
+                        case '=':
+                            cell.setType(CellType.CLOSED_DOOR);
+                            break;
                         case 's':
                             cell.setType(CellType.SKELETON);
                             new Skeleton(cell);
@@ -43,11 +45,23 @@ public class MapLoader {
                             break;
                         case '/':
                             cell.setType(CellType.SWORD);
-                            cell.setItem(new Sword(cell));
+                            //cell.setItem(new Sword(cell));
                             break;
                         case '~':
                             cell.setType(CellType.KEY);
-                            cell.setItem(new Key(cell));
+                            //cell.setItem(new Key(cell));
+                            break;
+                        case 'w':
+                            cell.setType(CellType.WARRIOR);
+                            cell.setActor(new Warrior(cell));
+                            break;
+                        case 'c':
+                            cell.setType(CellType.SCORPION);
+                            cell.setActor(new Scorpion(cell));
+                            break;
+                        case 'b':
+                            cell.setType(CellType.BEE);
+                            cell.setActor(new Bee(cell));
                             break;
                         default:
                             throw new RuntimeException("Unrecognized character: '" + line.charAt(x) + "'");

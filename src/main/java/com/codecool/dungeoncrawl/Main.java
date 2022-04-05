@@ -87,6 +87,7 @@ public class Main extends Application {
             case UP:
                 map.getPlayer().move(0, -1);
                 refresh();
+                map.getPlayer().gameOver();
                 break;
             case DOWN:
                 map.getPlayer().move(0, 1);
