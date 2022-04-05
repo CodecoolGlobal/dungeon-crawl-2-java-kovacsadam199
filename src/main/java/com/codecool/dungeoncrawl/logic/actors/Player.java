@@ -14,7 +14,7 @@ public class Player extends Actor {
 
     public Player(Cell cell) {
         super(cell);
-        inventory.put("key", 1);
+        //inventory.put("key", 1);
     }
 
     @Override
