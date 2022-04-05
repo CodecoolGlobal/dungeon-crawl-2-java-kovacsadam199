@@ -7,9 +7,11 @@ public enum CellType {
     SKELETON("skeleton"),
     SWORD("sword"),
     KEY("key"),
+    SCORPION("scorpion"),
+    WARRIOR("warrior"),
+    BEE("bee"),
     CLOSED_DOOR("closed_door"),
-    OPEN_DOOR("open_door")
-    ;
+    OPEN_DOOR("open_door");
 
     private final String tileName;
 
