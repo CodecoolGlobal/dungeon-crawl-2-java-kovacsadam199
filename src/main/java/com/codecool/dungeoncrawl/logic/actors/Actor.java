@@ -22,7 +22,7 @@ public abstract class Actor implements Drawable {
         cell.setActor(null);
         nextCell.setActor(this);
         cell = nextCell;
-        System.out.println(cell.getType());
+        //System.out.println(cell.getType());
     }
 
     public int getHealth() {

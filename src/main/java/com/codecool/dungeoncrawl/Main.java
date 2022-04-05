@@ -6,6 +6,9 @@ import com.codecool.dungeoncrawl.logic.MapLoader;
 import com.codecool.dungeoncrawl.logic.actors.Actor;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -49,8 +52,6 @@ public class Main extends Application {
 
         Scene scene = new Scene(borderPane);
         primaryStage.setScene(scene);
-        refresh();
-        scene.setOnKeyPressed(this::onKeyPressed);
 
         primaryStage.setTitle("Dungeon Crawl");
         primaryStage.show();
@@ -58,6 +59,14 @@ public class Main extends Application {
         System.out.println("PICK");
         pickupBtn.setText("Pick up!");
         pickupBtn.setFocusTraversable(false);
+
+        Label inv = new Label("Inventory: ");
+        Player player = map.getPlayer();
+        pickupBtn.setOnAction(event -> System.out.println("picked up " + player.pickUp()));
+
+        refresh();
+        scene.setOnKeyPressed(this::onKeyPressed);
+
     }
 
     private void onKeyPressed(KeyEvent keyEvent) {
@@ -84,7 +93,6 @@ public class Main extends Application {
     private void refresh() {
         context.setFill(Color.BLACK);
         context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        Player player = map.getPlayer();
         for (int x = 0; x < map.getWidth(); x++) {
             for (int y = 0; y < map.getHeight(); y++) {
                 Cell cell = map.getCell(x, y);

@@ -13,11 +13,16 @@ public class Player extends Actor {
         return "player";
     }
 
-    public boolean pickUp(int dx, int dy){
-        Cell nextCell = this.getCell().getNeighbor(dx, dy);
-        return (nextCell.getType() == CellType.SKELETON);
 
+
+    public String pickUp() {
+        System.out.println(this.getCell().getType());
+        if (this.getCell().getType() == CellType.SWORD) {
+            return "sword";
+        } else if (this.getCell().getType() == CellType.KEY) {
+            return "key";
+        }
+        return null;
     }
-
 
 }
