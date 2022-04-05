@@ -32,7 +32,7 @@ public class MapLoader {
                             cell.setType(CellType.FLOOR);
                             break;
                         case 's':
-                            cell.setType(CellType.WALL);
+                            cell.setType(CellType.SKELETON);
                             new Skeleton(cell);
                             break;
                         case '@':
