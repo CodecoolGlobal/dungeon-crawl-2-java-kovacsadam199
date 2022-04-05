@@ -7,6 +7,7 @@ import com.codecool.dungeoncrawl.logic.actors.Actor;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.geometry.Insets;
@@ -20,6 +21,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -37,6 +39,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        int rowCounter = 5;
+
         GridPane ui = new GridPane();
         ui.setPrefWidth(200);
         ui.setPadding(new Insets(10));
@@ -55,15 +59,24 @@ public class Main extends Application {
 
         primaryStage.setTitle("Dungeon Crawl");
         primaryStage.show();
-        ui.add(pickupBtn, 2, 3);
-        System.out.println("PICK");
+        ui.addRow(3,pickupBtn);
         pickupBtn.setText("Pick up!");
         pickupBtn.setFocusTraversable(false);
 
-        Label inv = new Label("Inventory: ");
+        Text inv = new Text("Inventory: ");
+        ui.addRow(4, inv);
+        ui.addRow(5, new Label("Empty"));
         Player player = map.getPlayer();
-        pickupBtn.setOnAction(event -> System.out.println("picked up " + player.pickUp()));
+        EventHandler eventHandler = new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                ui.getChildren().remove(4);
+                ui.addRow(rowCounter + 1, new Text(player.pickUp()));
+            }
+        };
 
+        pickupBtn.setOnAction(eventHandler);
+//
         refresh();
         scene.setOnKeyPressed(this::onKeyPressed);
 
