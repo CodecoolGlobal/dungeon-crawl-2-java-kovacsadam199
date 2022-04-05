@@ -5,22 +5,32 @@ import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.Drawable;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public abstract class Actor implements Drawable {
     private Cell cell;
     private int health = 10;
 
+
     public Actor(Cell cell) {
         this.cell = cell;
         this.cell.setActor(this);
+
     }
 
     public void move(int dx, int dy) {
         Cell nextCell = cell.getNeighbor(dx, dy);
-        if (nextCell.getType() == CellType.WALL || nextCell.getType()== CellType.EMPTY || nextCell.getType()== CellType.SKELETON || nextCell.getType()==CellType.SCORPION || nextCell.getType()==CellType.BEE || nextCell.getType()==CellType.WARRIOR){
+        if (nextCell.getType() == CellType.WALL || nextCell.getType()== CellType.EMPTY || nextCell.getType()== CellType.SKELETON || nextCell.getType()==CellType.SCORPION || nextCell.getType()==CellType.BEE || nextCell.getType()==CellType.WARRIOR
+        || nextCell.getType() == CellType.CLOSED_DOOR && (cell.getActor() instanceof Player && !cell.getActor().getInventory().containsKey("key"))){
             if(cell.getActor() instanceof Player && nextCell.getType()==CellType.SKELETON || nextCell.getType()==CellType.SCORPION || nextCell.getType()==CellType.BEE || nextCell.getType()==CellType.WARRIOR){ // or other monster type can come here
                     cell.getActor().attack(dx,dy);}
             nextCell = cell;
             cell.setActor(this);
+        }
+        if(nextCell.getType() == CellType.CLOSED_DOOR &&
+                (cell.getActor() instanceof Player && cell.getActor().getInventory().containsKey("key"))){ // you need key in inventory to open door
+            nextCell.setType(CellType.OPEN_DOOR);
         }
         cell.setActor(null);
         nextCell.setActor(this);
@@ -30,6 +40,10 @@ public abstract class Actor implements Drawable {
 
     public int getHealth() {
         return health;
+    }
+
+    public Map<String, Integer> getInventory() {
+        return cell.getActor().getInventory();
     }
 
     public Cell getCell() {
