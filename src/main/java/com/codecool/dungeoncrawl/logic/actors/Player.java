@@ -10,4 +10,18 @@ public class Player extends Actor {
     public String getTileName() {
         return "player";
     }
+    public void gameOver(){
+       if(this.getHealth()<=0)
+       {
+           //TODO: change it to not close program but send game over message
+           System.out.println("Game over");
+           System.exit(0);
+       }
+
+    }
+    public void attack(){
+        Actor enemy = getCell().getNeighbor();
+
+
+    }
 }
