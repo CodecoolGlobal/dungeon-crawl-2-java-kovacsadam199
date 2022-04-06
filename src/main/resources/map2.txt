@@ -13,8 +13,8 @@ f....f..f.ft.fvvf.fffff.f
 f....f.......ffff@ff....f
 f..fff..ffff.....=f.....f
 f.....f....ffffffff.....f
-f.....ffff.fvvvvvvf....wf
-f.......f.t.ffffffff...wC
+f.....ffff.fvvvvvvf....ff
+f.......f.t.ffffffff..wCf
 f......f~.fvvvvvvf.....wf
 ftffffff..ffffffff......f
 f.........fvvvvvvf......f
