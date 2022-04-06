@@ -3,6 +3,8 @@ package com.codecool.dungeoncrawl.logic.actors;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 
+import java.util.Objects;
+
 public class Scorpion extends MovingMonsters {
     public Scorpion(Cell cell) {
         super(cell);
@@ -13,9 +15,8 @@ public class Scorpion extends MovingMonsters {
     public void move(int dx, int dy) {
         Cell cell = this.getCell();
         Cell nextCell = this.getCell().getNeighbor(dx, dy);
-        if (nextCell.getTileName()== "player" && nextCell.getType() == CellType.WALL || nextCell.getType()== CellType.EMPTY || nextCell.getType()== CellType.SKELETON || nextCell.getType()==CellType.SCORPION || nextCell.getType()==CellType.BEE || nextCell.getType()==CellType.WARRIOR
-                || nextCell.getType() == CellType.CLOSED_DOOR && !cell.getActor().getInventory().containsKey("key")){
-            if(nextCell.getTileName()=="player"){ // or other monster type can come here
+        if (cantMove(cell, nextCell)){
+            if(Objects.equals(nextCell.getTileName(), "player")){
                 cell.getActor().attack(dx,dy);}
             nextCell = this.getCell();
             this.getCell().setActor(this);
@@ -24,6 +25,10 @@ public class Scorpion extends MovingMonsters {
         cell.setType(CellType.FLOOR);
         nextCell.setActor(this);
         this.setCell(nextCell);
+    }
+    private boolean cantMove(Cell cell, Cell nextCell) {
+        return Objects.equals(nextCell.getTileName(), "player") || nextCell.getType() == CellType.WALL || nextCell.getType()== CellType.EMPTY || nextCell.getType()== CellType.SKELETON || nextCell.getType()==CellType.SCORPION || nextCell.getType()==CellType.BEE || nextCell.getType()==CellType.WARRIOR
+                || nextCell.getType() == CellType.CLOSED_DOOR && !cell.getActor().getInventory().containsKey("key");
     }
 
     @Override
