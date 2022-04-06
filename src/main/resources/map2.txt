@@ -1,22 +1,22 @@
 25 20
 fffffffffffffffffffffffff
-f..............f........f
-f...s...s...ffffffff....f
-f............/...f......f
-f................f....~.f
-f.....s..........f....b.f
+f..........t...f......t.f
+f...........ffffffff....f
+f...t......../...t......f
+f......t.........t....~.f
+f.............t..f......f
+f..t..f..........f......f
 f.....f..........f......f
-f.....f..........f......f
-fffff..fffffffffffff....f
-f....f..f.f..fvvf~f...f.f
-f....f..f.f..fvvf.fffff.f
+fffff..tffffffffffff....f
+f.....t.f.fa.fvvf~f...f.f
+f....f..f.ft.fvvf.fffff.f
 f....f.......ffff@ff....f
 f..fff..ffff.....=f.....f
-f..........ffffffff.....f
-f..........fvvvvvvf.....f
-f..........ffffffff.....f
-f.......~.fvvvvvvf......f
-f.........ffffffff......f
+f.....f....ffffffff.....f
+f.....ffff.fvvvvvvf....wf
+f.......f.t.ffffffff...wC
+f......f~.fvvvvvvf.....wf
+ftffffff..ffffffff......f
 f.........fvvvvvvf......f
 fffffffffffffffffffffffff
 

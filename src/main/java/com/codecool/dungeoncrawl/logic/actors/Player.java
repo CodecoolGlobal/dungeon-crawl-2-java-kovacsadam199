@@ -43,7 +43,7 @@ public class Player extends Actor {
 
     public void pickUpSpecificItem(CellType currentCell) {
         String prepareInventory = currentCell.toString().toLowerCase(Locale.ROOT);
-        if (currentCell == CellType.SWORD || currentCell == CellType.KEY){
+        if (currentCell == CellType.SWORD || currentCell == CellType.KEY || currentCell == CellType.AX){
             this.getCell().setType(CellType.FLOOR);
             inventory.add(prepareInventory);
         }

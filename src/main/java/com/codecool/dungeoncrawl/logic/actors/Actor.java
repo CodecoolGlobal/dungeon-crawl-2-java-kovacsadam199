@@ -23,7 +23,9 @@ public abstract class Actor implements Drawable {
     public void move(int dx, int dy) {
         Cell nextCell = cell.getNeighbor(dx, dy);
         if (nextCell.getType() == CellType.WALL || nextCell.getType()== CellType.EMPTY || nextCell.getType()== CellType.SKELETON || nextCell.getType()==CellType.SCORPION || nextCell.getType()==CellType.BEE || nextCell.getType()==CellType.WARRIOR
-                || nextCell.getType() == CellType.FENCE || nextCell.getType() == CellType.CLOSED_DOOR && (cell.getActor() instanceof Player && !cell.getActor().getInventory().contains("key"))){
+                || nextCell.getType() == CellType.FENCE
+                || nextCell.getType() == CellType.TREE && (cell.getActor() instanceof Player && !cell.getActor().getInventory().contains("ax"))
+                || nextCell.getType() == CellType.CLOSED_DOOR && (cell.getActor() instanceof Player && !cell.getActor().getInventory().contains("key"))){
             if(cell.getActor() instanceof Player && nextCell.getType()==CellType.SKELETON || nextCell.getType()==CellType.SCORPION || nextCell.getType()==CellType.BEE || nextCell.getType()==CellType.WARRIOR){ // or other monster type can come here
                     cell.getActor().attack(dx,dy);}
             nextCell = cell;
@@ -32,6 +34,10 @@ public abstract class Actor implements Drawable {
         if(nextCell.getType() == CellType.CLOSED_DOOR &&
                 (cell.getActor() instanceof Player && cell.getActor().getInventory().contains("key"))){ // you need key in inventory to open door
             nextCell.setType(CellType.OPEN_DOOR);
+        }
+        if(nextCell.getType() == CellType.TREE &&
+                (cell.getActor() instanceof Player && cell.getActor().getInventory().contains("ax"))){ // you need ax in inventory to cut tree
+            nextCell.setType(CellType.CUTTREE);
         }
         cell.setActor(null);
         nextCell.setActor(this);
