@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Player extends Actor {
-    //private List<String> inventory = new ArrayList<>();
 
     private Map<String, Integer> inventory = new HashMap<>();
 
@@ -39,19 +38,19 @@ public class Player extends Actor {
 
     }
 
-
-
     public String pickUp() {
         System.out.println(this.getCell().getType()); // test
-        if (this.getCell().getType() == CellType.SWORD) {
-            this.getCell().setType(CellType.FLOOR);
-            inventory.put("sword", 1);
-        } else if (this.getCell().getType() == CellType.KEY) {
-            this.getCell().setType(CellType.FLOOR);
-            inventory.put("key", 1);
-        }
-
+        CellType currentCell = this.getCell().getType();
+        pickUpSpecificItem(currentCell);
         return printInventory();
+    }
+
+    public void pickUpSpecificItem(CellType currentCell) {
+        String prepareInventory = currentCell.toString();
+        if (currentCell == CellType.SWORD || currentCell == CellType.KEY){
+            this.getCell().setType(CellType.FLOOR);
+            inventory.put(prepareInventory, 1);
+        }
     }
 
     public String printInventory(){
