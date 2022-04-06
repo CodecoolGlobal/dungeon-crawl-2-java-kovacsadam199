@@ -22,22 +22,6 @@ public abstract class Actor implements Drawable {
     }
 
     public abstract void move(int dx, int dy);
-//        Cell nextCell = cell.getNeighbor(dx, dy);
-//        if (nextCell.getType() == CellType.WALL || nextCell.getType()== CellType.EMPTY || nextCell.getType()== CellType.SKELETON || nextCell.getType()==CellType.SCORPION || nextCell.getType()==CellType.BEE || nextCell.getType()==CellType.WARRIOR
-//        || nextCell.getType() == CellType.CLOSED_DOOR && (cell.getActor() instanceof Player && !cell.getActor().getInventory().containsKey("key"))){
-//            if(cell.getActor() instanceof Player && nextCell.getType()==CellType.SKELETON || nextCell.getType()==CellType.SCORPION || nextCell.getType()==CellType.BEE || nextCell.getType()==CellType.WARRIOR){ // or other monster type can come here
-//                    cell.getActor().attack(dx,dy);}
-//            nextCell = cell;
-//            cell.setActor(this);
-//        }
-//        if(nextCell.getType() == CellType.CLOSED_DOOR &&
-//                (cell.getActor() instanceof Player && cell.getActor().getInventory().containsKey("key"))){ // you need key in inventory to open door
-//            nextCell.setType(CellType.OPEN_DOOR);
-//        }
-//        cell.setActor(null);
-//        nextCell.setActor(this);
-//        cell = nextCell;
-//        System.out.println(cell.getType());
 
     public int getHealth() {
         return health;
