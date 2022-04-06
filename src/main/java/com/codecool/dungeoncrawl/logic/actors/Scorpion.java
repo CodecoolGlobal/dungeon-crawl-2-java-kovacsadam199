@@ -16,10 +16,12 @@ public class Scorpion extends MovingMonsters {
         Cell cell = this.getCell();
         Cell nextCell = this.getCell().getNeighbor(dx, dy);
         if (cantMove(cell, nextCell)){
-            if(Objects.equals(nextCell.getTileName(), "player")){
-//                cell.getActor().attack(dx,dy);
-                System.out.println("inside");
+            if(nextCell.getActor().getTileName() != null && nextCell.getActor().getTileName() == "player"){
+                nextCell.getActor().attacked(cell.getX()-nextCell.getX(),cell.getY()-nextCell.getY());
+                nextCell.getActor().attackBack(nextCell.getX()-cell.getX(), nextCell.getY()-cell.getY());
             }
+            if(this.getHealth() <= 0)
+                return;
             nextCell = this.getCell();
             this.getCell().setActor(this);
         }

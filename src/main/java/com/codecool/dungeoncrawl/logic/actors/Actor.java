@@ -59,7 +59,19 @@ public abstract class Actor implements Drawable{
             loseHealth(monsterDamage);
         }
     }
+    public void attacked(int x, int y){
+        health -= monsterDamage;
+
+    }
+
+    public void attackBack(int x, int y){
+        Actor enemy = cell.getNeighbor(-x,-y).getActor();
+        enemy.loseHealth(playerDamage);
+
+
+    }
 //    public void attack(Sword sword){
 //
 //    }
+
 }
