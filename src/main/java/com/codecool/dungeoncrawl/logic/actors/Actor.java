@@ -6,6 +6,7 @@ import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.Drawable;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public abstract class Actor implements Drawable {
@@ -22,14 +23,14 @@ public abstract class Actor implements Drawable {
     public void move(int dx, int dy) {
         Cell nextCell = cell.getNeighbor(dx, dy);
         if (nextCell.getType() == CellType.WALL || nextCell.getType()== CellType.EMPTY || nextCell.getType()== CellType.SKELETON || nextCell.getType()==CellType.SCORPION || nextCell.getType()==CellType.BEE || nextCell.getType()==CellType.WARRIOR
-        || nextCell.getType() == CellType.CLOSED_DOOR && (cell.getActor() instanceof Player && !cell.getActor().getInventory().containsKey("key"))){
+        || nextCell.getType() == CellType.CLOSED_DOOR && (cell.getActor() instanceof Player && !cell.getActor().getInventory().contains("key"))){
             if(cell.getActor() instanceof Player && nextCell.getType()==CellType.SKELETON || nextCell.getType()==CellType.SCORPION || nextCell.getType()==CellType.BEE || nextCell.getType()==CellType.WARRIOR){ // or other monster type can come here
                     cell.getActor().attack(dx,dy);}
             nextCell = cell;
             cell.setActor(this);
         }
         if(nextCell.getType() == CellType.CLOSED_DOOR &&
-                (cell.getActor() instanceof Player && cell.getActor().getInventory().containsKey("key"))){ // you need key in inventory to open door
+                (cell.getActor() instanceof Player && cell.getActor().getInventory().contains("key"))){ // you need key in inventory to open door
             nextCell.setType(CellType.OPEN_DOOR);
         }
         cell.setActor(null);
@@ -42,7 +43,7 @@ public abstract class Actor implements Drawable {
         return health;
     }
 
-    public Map<String, Integer> getInventory() {
+    public List<String> getInventory() {
         return cell.getActor().getInventory();
     }
 

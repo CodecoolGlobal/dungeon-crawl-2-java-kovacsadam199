@@ -5,15 +5,11 @@ import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.items.Item;
 import com.codecool.dungeoncrawl.logic.items.Key;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Player extends Actor {
 
-    private Map<String, Integer> inventory = new HashMap<>();
+    private List<String> inventory = new ArrayList<>();
 
     public Player(Cell cell) {
         super(cell);
@@ -21,7 +17,7 @@ public class Player extends Actor {
     }
 
     @Override
-    public Map<String, Integer> getInventory() {
+    public List<String> getInventory() {
         return inventory;
     }
 
@@ -46,10 +42,10 @@ public class Player extends Actor {
     }
 
     public void pickUpSpecificItem(CellType currentCell) {
-        String prepareInventory = currentCell.toString();
+        String prepareInventory = currentCell.toString().toLowerCase(Locale.ROOT);
         if (currentCell == CellType.SWORD || currentCell == CellType.KEY){
             this.getCell().setType(CellType.FLOOR);
-            inventory.put(prepareInventory, 1);
+            inventory.add(prepareInventory);
         }
     }
 
@@ -57,7 +53,7 @@ public class Player extends Actor {
         System.out.println(inventory); //test
         StringBuilder inventoryString= new StringBuilder();
         if (inventory != null) {
-            for (String item : inventory.keySet()) {
+            for (String item : inventory) {
                 inventoryString.append(item).append(",");
                 inventoryString.append("\n");
             }
