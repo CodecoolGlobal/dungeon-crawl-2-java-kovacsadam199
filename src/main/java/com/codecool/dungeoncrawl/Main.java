@@ -66,7 +66,6 @@ public class Main extends Application {
             case UP:
                 map.getPlayer().move(0, -1);
                 refresh();
-              //  map.getMonsters().move() make monsters move
                 break;
             case DOWN:
                 map.getPlayer().move(0, 1);
@@ -84,8 +83,11 @@ public class Main extends Application {
         LinkedList<MovingMonsters> monsters = map.getMovingMonsters();
         for (MovingMonsters monster:monsters
              ) {
-            int[] nextMoves = monster.getNextMove();
-            monster.move(nextMoves[0],nextMoves[1]);
+            if (monster.getHealth() >0){
+                int[] nextMoves = monster.getNextMove();
+                monster.move(nextMoves[0],nextMoves[1]);
+            }
+
         }
         refresh();
         map.getPlayer().endIfGameOver();

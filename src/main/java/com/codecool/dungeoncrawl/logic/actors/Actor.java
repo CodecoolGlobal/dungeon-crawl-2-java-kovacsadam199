@@ -48,7 +48,8 @@ public abstract class Actor implements Drawable{
         health -= lostAmount;
         if (health <= 0){
             cell.setType(CellType.FLOOR);
-            cell.setActor(null);}
+            cell.setActor(null);
+            }
     }
 
     public void attack(int x, int y){
@@ -57,7 +58,6 @@ public abstract class Actor implements Drawable{
         if(enemy.getHealth()>=1){
             loseHealth(monsterDamage);
         }
-
     }
 //    public void attack(Sword sword){
 //

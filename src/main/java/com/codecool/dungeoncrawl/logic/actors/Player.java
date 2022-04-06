@@ -49,6 +49,8 @@ public class Player extends Actor {
         Cell nextCell = this.getCell().getNeighbor(dx, dy);
         if (cantMove(cell, nextCell)){
             if(isNeighbourEnemy(nextCell)){ // or other monster type can come here
+                System.out.println(nextCell.getActor().getHealth());
+                System.out.println(nextCell.getActor().getCell().getType());
                 cell.getActor().attack(dx,dy);}
             nextCell = this.getCell();
             this.getCell().setActor(this);

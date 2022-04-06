@@ -17,18 +17,22 @@ public class Scorpion extends MovingMonsters {
         Cell nextCell = this.getCell().getNeighbor(dx, dy);
         if (cantMove(cell, nextCell)){
             if(Objects.equals(nextCell.getTileName(), "player")){
-                cell.getActor().attack(dx,dy);}
+//                cell.getActor().attack(dx,dy);
+                System.out.println("inside");
+            }
             nextCell = this.getCell();
             this.getCell().setActor(this);
         }
         cell.setActor(null);
         cell.setType(CellType.FLOOR);
         nextCell.setActor(this);
-        this.setCell(nextCell);
+        nextCell.setType(CellType.SCORPION);
+        setCell(nextCell);
+
     }
     private boolean cantMove(Cell cell, Cell nextCell) {
-        return Objects.equals(nextCell.getTileName(), "player") || nextCell.getType() == CellType.WALL || nextCell.getType()== CellType.EMPTY || nextCell.getType()== CellType.SKELETON || nextCell.getType()==CellType.SCORPION || nextCell.getType()==CellType.BEE || nextCell.getType()==CellType.WARRIOR
-                || nextCell.getType() == CellType.CLOSED_DOOR && !cell.getActor().getInventory().containsKey("key");
+        return (nextCell.getActor()!=null && nextCell.getActor().getTileName() == "player") || nextCell.getType() == CellType.WALL || nextCell.getType()== CellType.EMPTY || nextCell.getType()== CellType.SKELETON || nextCell.getType()==CellType.SCORPION || nextCell.getType()==CellType.BEE || nextCell.getType()==CellType.WARRIOR
+                || (nextCell.getType() == CellType.CLOSED_DOOR && !cell.getActor().getInventory().containsKey("key"));
     }
 
     @Override
