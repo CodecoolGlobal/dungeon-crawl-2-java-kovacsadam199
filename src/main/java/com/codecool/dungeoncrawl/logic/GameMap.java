@@ -1,6 +1,9 @@
 package com.codecool.dungeoncrawl.logic;
 
+import com.codecool.dungeoncrawl.logic.actors.MovingMonsters;
 import com.codecool.dungeoncrawl.logic.actors.Player;
+
+import java.util.LinkedList;
 
 public class GameMap {
     private int width;
@@ -8,6 +11,7 @@ public class GameMap {
     private Cell[][] cells;
 
     private Player player;
+    private LinkedList<MovingMonsters> movingMonsters = new LinkedList<>();
 
     public GameMap(int width, int height, CellType defaultCellType) {
         this.width = width;
@@ -27,9 +31,15 @@ public class GameMap {
     public void setPlayer(Player player) {
         this.player = player;
     }
+    public void addMonster(MovingMonsters monster){
+        movingMonsters.add((MovingMonsters) monster);
+    }
 
     public Player getPlayer() {
         return player;
+    }
+    public LinkedList<MovingMonsters> getMovingMonsters(){
+        return movingMonsters;
     }
 
     public int getWidth() {

@@ -28,7 +28,7 @@ public class Player extends Actor {
     public String getTileName() {
         return "player";
     }
-    public void gameOver(){
+    public void endIfGameOver(){
        if(this.getHealth()<=0)
        {
            //TODO: change it to not close program but send game over message
@@ -61,7 +61,6 @@ public class Player extends Actor {
         cell.setActor(null);
         nextCell.setActor(this);
         this.setCell(nextCell);
-        System.out.println(cell.getX());
     }
 
 //    public Sword getSword(){

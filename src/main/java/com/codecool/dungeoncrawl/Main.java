@@ -3,11 +3,10 @@ package com.codecool.dungeoncrawl;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
-import com.codecool.dungeoncrawl.logic.actors.Actor;
+import com.codecool.dungeoncrawl.logic.actors.MovingMonsters;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import javafx.application.Application;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -18,6 +17,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+
+import java.util.LinkedList;
 
 public class Main extends Application {
     GameMap map = MapLoader.loadMap();
@@ -65,7 +66,6 @@ public class Main extends Application {
             case UP:
                 map.getPlayer().move(0, -1);
                 refresh();
-                map.getPlayer().gameOver();
               //  map.getMonsters().move() make monsters move
                 break;
             case DOWN:
@@ -81,6 +81,14 @@ public class Main extends Application {
                 refresh();
                 break;
         }
+        LinkedList<MovingMonsters> monsters = map.getMovingMonsters();
+        for (MovingMonsters monster:monsters
+             ) {
+            int[] nextMoves = monster.getNextMove();
+            monster.move(nextMoves[0],nextMoves[1]);
+        }
+        refresh();
+        map.getPlayer().endIfGameOver();
     }
 
     private void refresh() {

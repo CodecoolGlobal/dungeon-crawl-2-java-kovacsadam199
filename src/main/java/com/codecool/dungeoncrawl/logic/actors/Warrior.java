@@ -7,13 +7,10 @@ public class Warrior extends Actor{
         super(cell);
     }
 
+
     @Override
     public String getTileName() {
         return "warrior";
     }
 
-    @Override
-    public void move(int dx, int dy){
-
-    }
 }

@@ -12,7 +12,6 @@ public enum CellType {
     BEE("bee"),
     CLOSED_DOOR("closed_door"),
     OPEN_DOOR("open_door");
-
     private final String tileName;
 
     CellType(String tileName) {

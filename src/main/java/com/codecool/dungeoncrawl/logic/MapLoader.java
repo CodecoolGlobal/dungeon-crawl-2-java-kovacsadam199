@@ -57,7 +57,9 @@ public class MapLoader {
                             break;
                         case 'c':
                             cell.setType(CellType.SCORPION);
-                            cell.setActor(new Scorpion(cell));
+                            Scorpion scorpion = new Scorpion(cell);
+                            cell.setActor(scorpion);
+                            map.addMonster(scorpion);
                             break;
                         case 'b':
                             cell.setType(CellType.BEE);
