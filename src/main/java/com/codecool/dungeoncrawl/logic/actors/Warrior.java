@@ -11,4 +11,9 @@ public class Warrior extends Actor{
     public String getTileName() {
         return "warrior";
     }
+
+    @Override
+    public void move(int dx, int dy){
+
+    }
 }

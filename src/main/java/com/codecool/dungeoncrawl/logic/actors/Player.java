@@ -17,6 +17,9 @@ public class Player extends Actor {
         //inventory.put("key", 1);
     }
 
+    public  Player getPlayer(){
+        return this;
+    }
     @Override
     public Map<String, Integer> getInventory() {
         return inventory;
@@ -40,6 +43,25 @@ public class Player extends Actor {
         Cell nextCell = this.getCell().getNeighbor(dx, dy);
         return (nextCell.getType() == CellType.SKELETON);
 
+    }
+    public void move(int dx, int dy) {
+        Cell cell = this.getCell();
+        Cell nextCell = this.getCell().getNeighbor(dx, dy);
+        if (nextCell.getType() == CellType.WALL || nextCell.getType()== CellType.EMPTY || nextCell.getType()== CellType.SKELETON || nextCell.getType()==CellType.SCORPION || nextCell.getType()==CellType.BEE || nextCell.getType()==CellType.WARRIOR
+                || nextCell.getType() == CellType.CLOSED_DOOR && !cell.getActor().getInventory().containsKey("key")){
+            if(nextCell.getType()==CellType.SKELETON || nextCell.getType()==CellType.SCORPION || nextCell.getType()==CellType.BEE || nextCell.getType()==CellType.WARRIOR){ // or other monster type can come here
+                cell.getActor().attack(dx,dy);}
+            nextCell = this.getCell();
+            this.getCell().setActor(this);
+        }
+        if(nextCell.getType() == CellType.CLOSED_DOOR &&
+                (cell.getActor().getInventory().containsKey("key"))){ // you need key in inventory to open door
+            nextCell.setType(CellType.OPEN_DOOR);
+        }
+        cell.setActor(null);
+        nextCell.setActor(this);
+        this.setCell(nextCell);
+        System.out.println(cell.getX());
     }
 
 //    public Sword getSword(){

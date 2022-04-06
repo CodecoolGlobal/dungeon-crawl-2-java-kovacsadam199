@@ -66,6 +66,7 @@ public class Main extends Application {
                 map.getPlayer().move(0, -1);
                 refresh();
                 map.getPlayer().gameOver();
+              //  map.getMonsters().move() make monsters move
                 break;
             case DOWN:
                 map.getPlayer().move(0, 1);
