@@ -47,9 +47,8 @@ public class Player extends Actor {
     public void move(int dx, int dy) {
         Cell cell = this.getCell();
         Cell nextCell = this.getCell().getNeighbor(dx, dy);
-        if (nextCell.getType() == CellType.WALL || nextCell.getType()== CellType.EMPTY || nextCell.getType()== CellType.SKELETON || nextCell.getType()==CellType.SCORPION || nextCell.getType()==CellType.BEE || nextCell.getType()==CellType.WARRIOR
-                || nextCell.getType() == CellType.CLOSED_DOOR && !cell.getActor().getInventory().containsKey("key")){
-            if(nextCell.getType()==CellType.SKELETON || nextCell.getType()==CellType.SCORPION || nextCell.getType()==CellType.BEE || nextCell.getType()==CellType.WARRIOR){ // or other monster type can come here
+        if (cantMove(cell, nextCell)){
+            if(isNeighbourEnemy(nextCell)){ // or other monster type can come here
                 cell.getActor().attack(dx,dy);}
             nextCell = this.getCell();
             this.getCell().setActor(this);
@@ -61,6 +60,15 @@ public class Player extends Actor {
         cell.setActor(null);
         nextCell.setActor(this);
         this.setCell(nextCell);
+    }
+
+    private boolean isNeighbourEnemy(Cell nextCell) {
+        return nextCell.getType() == CellType.SKELETON || nextCell.getType() == CellType.SCORPION || nextCell.getType() == CellType.BEE || nextCell.getType() == CellType.WARRIOR;
+    }
+
+    private boolean cantMove(Cell cell, Cell nextCell) {
+        return nextCell.getType() == CellType.WALL || nextCell.getType() == CellType.EMPTY || nextCell.getType() == CellType.SKELETON || nextCell.getType() == CellType.SCORPION || nextCell.getType() == CellType.BEE || nextCell.getType() == CellType.WARRIOR
+                || nextCell.getType() == CellType.CLOSED_DOOR && !cell.getActor().getInventory().containsKey("key");
     }
 
 //    public Sword getSword(){
