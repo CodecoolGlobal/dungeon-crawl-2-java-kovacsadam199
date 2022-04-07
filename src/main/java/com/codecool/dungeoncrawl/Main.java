@@ -93,23 +93,27 @@ public class Main extends Application {
     }
 
     private void onKeyPressed(KeyEvent keyEvent) {
+        String usedItem = "";
         switch (keyEvent.getCode()) {
             case UP:
-                map.getPlayer().move(0, -1);
+                usedItem = map.getPlayer().move(0, -1);
                 refresh();
                 break;
             case DOWN:
-                map.getPlayer().move(0, 1);
+                usedItem = map.getPlayer().move(0, 1);
                 refresh();
                 break;
             case LEFT:
-                map.getPlayer().move(-1, 0);
+                usedItem = map.getPlayer().move(-1, 0);
                 refresh();
                 break;
             case RIGHT:
-                map.getPlayer().move(1,0);
+                usedItem = map.getPlayer().move(1,0);
                 refresh();
                 break;
+        }
+        if(usedItem.equals("key")){
+            pickupBtn.fire();
         }
         LinkedList<MovingMonsters> monsters = map.getMovingMonsters();
         for (MovingMonsters monster:monsters
