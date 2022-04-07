@@ -15,14 +15,15 @@ public class Player extends Actor {
 
     public Player(Cell cell) {
         super(cell);
-        //inventory.put("key", 1);
     }
 
-    public  Player getPlayer(){
-        return this;
-    }
+
     public List<String> getInventory() {
         return inventory;
+    }
+
+    public void resetInventory(){
+        this.inventory = new ArrayList<>();
     }
 
     public String getTileName() {

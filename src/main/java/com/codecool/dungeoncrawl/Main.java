@@ -12,6 +12,7 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.*;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -41,10 +42,13 @@ public class Main extends Application {
     GraphicsContext context = canvas.getGraphicsContext2D();
     Label healthLabel = new Label();
     Button pickupBtn = new Button();
+    final Button quitButton = new Button("quit");
+    final Button playAgainButton = new Button("play again");
     Stage primaryStage;
     GridPane ui = new GridPane();
     BorderPane borderPane = new BorderPane();
     int rowCounter = 5;
+    Stage dialog = new Stage();
     final String LOST_GAME = "You died!";
     final String WON_GAME = "Congrats, you won!";
 
@@ -58,9 +62,19 @@ public class Main extends Application {
     EventHandler playAgain = new EventHandler() {
         @Override
         public void handle(Event event) {
-            map = MapLoader.loadMap("/map.txt");
+            resetGame();
         }
     };
+
+    private void resetGame() {
+        dialog.close();
+        dialog = new Stage();
+        Player player = map.getPlayer();
+        map = MapLoader.loadMap("/map.txt", player);
+        map.getPlayer().setHealth(10);
+        map.getPlayer().resetInventory();
+        pickupBtn.fire();
+    }
 
     public static void main(String[] args) {
         launch(args);
@@ -106,6 +120,8 @@ public class Main extends Application {
         };
 
         pickupBtn.setOnAction(eventHandler);
+        quitButton.setOnAction(quit);
+        playAgainButton.setOnAction(playAgain);
         refresh();
         scene.setOnKeyPressed(this::onKeyPressed);
 
@@ -157,18 +173,14 @@ public class Main extends Application {
     }
 
     private void showEndOfGameDialog(String message) {
-        final Stage dialog = new Stage();
+
         dialog.initModality(Modality.APPLICATION_MODAL);
         dialog.initOwner(primaryStage);
         VBox dialogVbox = new VBox(20);
-        Button quitButton = new Button("quit");
-        Button playAgainButton = new Button("play again");
-        quitButton.setOnAction(quit);
-        playAgainButton.setOnAction(playAgain);
+        dialogVbox.setAlignment(Pos.CENTER);
         dialogVbox.getChildren().add(new Text(message));
         dialogVbox.getChildren().add(playAgainButton);
         dialogVbox.getChildren().add(quitButton);
-
         Scene dialogScene = new Scene(dialogVbox, 300, 200);
         dialog.setScene(dialogScene);
         dialog.show();

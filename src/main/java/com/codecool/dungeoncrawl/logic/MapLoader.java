@@ -46,11 +46,9 @@ public class MapLoader {
                             break;
                         case '/':
                             cell.setType(CellType.SWORD);
-                            //cell.setItem(new Sword(cell));
                             break;
                         case '~':
                             cell.setType(CellType.KEY);
-                            //cell.setItem(new Key(cell));
                             break;
                         case 'w':
                             cell.setType(CellType.FLOOR);
@@ -168,6 +166,9 @@ public class MapLoader {
                             break;
                         case 'a':
                             cell.setType(CellType.AXE);
+                            break;
+                        case 'S':
+                            cell.setType(CellType.STAIRS);
                             break;
                         default:
                             throw new RuntimeException("Unrecognized character: '" + line.charAt(x) + "'");
