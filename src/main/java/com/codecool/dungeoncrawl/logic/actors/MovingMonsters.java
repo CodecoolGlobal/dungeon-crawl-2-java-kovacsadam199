@@ -33,7 +33,7 @@ public abstract class MovingMonsters extends Actor {
         }
         cell.setActor(null);
         this.setCell(nextCell);
-        if (cell.getType() == CellType.SWORD || cell.getType() == CellType.KEY || cell.getType() == CellType.AX) {
+        if (cell.getType() == CellType.SWORD || cell.getType() == CellType.KEY || cell.getType() == CellType.AXE) {
             System.out.println(cell.getType());
             cell.setType(cell.getType());
         }
