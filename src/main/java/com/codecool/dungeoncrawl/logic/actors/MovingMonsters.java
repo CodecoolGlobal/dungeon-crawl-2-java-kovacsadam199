@@ -53,7 +53,7 @@ public abstract class MovingMonsters extends Actor {
     }
 
     private boolean cantMove(Cell cell, Cell nextCell) {
-        return (nextCell.getActor() != null && nextCell.getActor().getTileName() == "player") || nextCell.getType() == CellType.WALL || nextCell.getType() == CellType.EMPTY || nextCell.getType() == CellType.SKELETON || nextCell.getType() == CellType.SCORPION || nextCell.getType() == CellType.BEE || nextCell.getType() == CellType.WARRIOR || nextCell.getType() == CellType.CLOSED_DOOR || nextCell.getType() == CellType.FENCE;
+        return (nextCell.getActor() != null && nextCell.getActor().getTileName() == "player") || nextCell.getType() == CellType.WALL || nextCell.getType() == CellType.EMPTY || (nextCell.getActor() != null && nextCell.getActor().getTileName() == "skeleton") || (nextCell.getActor() != null && nextCell.getActor().getTileName() == "scorpion") || (nextCell.getActor() != null && nextCell.getActor().getTileName() == "bee") || (nextCell.getActor() != null && nextCell.getActor().getTileName() == "warrior") || nextCell.getType() == CellType.CLOSED_DOOR || nextCell.getType() == CellType.FENCE;
     }
 
     public abstract int[] getNextMove();

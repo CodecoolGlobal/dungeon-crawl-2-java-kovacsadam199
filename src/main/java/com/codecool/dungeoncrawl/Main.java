@@ -29,8 +29,8 @@ import java.util.LinkedList;
 
 public class Main extends Application {
     GameMap map = MapLoader.loadMap();
-    final int CANVAS_WIDTH = 11;
-    final int CANVAS_HEIGHT = 11;
+    final int CANVAS_WIDTH = 20;
+    final int CANVAS_HEIGHT = 20;
     Canvas canvas = new Canvas(
             CANVAS_WIDTH * Tiles.TILE_WIDTH,
             CANVAS_HEIGHT * Tiles.TILE_WIDTH);
