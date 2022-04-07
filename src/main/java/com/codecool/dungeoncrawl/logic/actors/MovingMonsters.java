@@ -16,6 +16,7 @@ public abstract class MovingMonsters extends Actor {
         if (!isRemoved)
             removeFromStartingPosition();
         Cell cell = this.getCell();
+        boolean hasWeapon = playerHasWeapon(dx, dy);
         System.out.println(cell.getType());
         if (cell.getType() == CellType.SWORD)
             System.out.println(cell.getX());
@@ -23,7 +24,7 @@ public abstract class MovingMonsters extends Actor {
         if (cantMove(cell, nextCell)) {
             if (nextCell.getActor() != null && nextCell.getActor().getTileName() != null && nextCell.getActor().getTileName() == "player") {
                 nextCell.getActor().attacked(cell.getX() - nextCell.getX(), cell.getY() - nextCell.getY());
-                nextCell.getActor().attackBack(nextCell.getX() - cell.getX(), nextCell.getY() - cell.getY());
+                nextCell.getActor().attackBack(nextCell.getX() - cell.getX(), nextCell.getY() - cell.getY(), hasWeapon);
             }
             if (this.getHealth() <= 0)
                 return;
@@ -44,6 +45,11 @@ public abstract class MovingMonsters extends Actor {
     private void removeFromStartingPosition() {
         startingPosition.setType(CellType.FLOOR);
         isRemoved = true;
+    }
+
+    public boolean playerHasWeapon(int dx, int dy){
+        return this.getCell().getNeighbor(dx, dy).getActor() instanceof Player
+                && ((Player) this.getCell().getNeighbor(dx, dy).getActor()).getInventory().contains("sword");
     }
 
     private boolean cantMove(Cell cell, Cell nextCell) {
