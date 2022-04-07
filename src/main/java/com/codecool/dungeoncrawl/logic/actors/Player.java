@@ -59,16 +59,16 @@ public class Player extends Actor {
             if(isNeighbourEnemy(nextCell)){ // or other monster type can come here
                 cell.getActor().attack(dx, dy, hasWeapon);
                 }
+            if(nextCell.getType() == CellType.TREE &&
+                    (getInventory().contains("axe"))){ // you need ax in inventory to cut tree
+                nextCell.setType(CellType.CUTTREE);
+            }
             nextCell = this.getCell();
             this.getCell().setActor(this);
         }
         if(nextCell.getType() == CellType.CLOSED_DOOR &&
                 (getInventory().contains("key"))){ // you need key in inventory to open door
             nextCell.setType(CellType.OPEN_DOOR);
-        }
-        if(nextCell.getType() == CellType.TREE &&
-                (getInventory().contains("axe"))){ // you need ax in inventory to cut tree
-            nextCell.setType(CellType.CUTTREE);
         }
         cell.setActor(null);
         nextCell.setActor(this);
@@ -80,7 +80,10 @@ public class Player extends Actor {
     }
 
     private boolean cantMove(Cell cell, Cell nextCell) {
-        return nextCell.getType() == CellType.WALL || nextCell.getType() == CellType.FENCE || (nextCell.getType() == CellType.TREE && getInventory().contains("ax")) || nextCell.getType() == CellType.EMPTY || (nextCell.getActor() != null && nextCell.getActor().getTileName() == "skeleton")|| (nextCell.getActor() != null && nextCell.getActor().getTileName() == "scorpion") || (nextCell.getActor() != null && nextCell.getActor().getTileName() == "bee") || (nextCell.getActor() != null && nextCell.getActor().getTileName() == "warrior")
+        return nextCell.getType() == CellType.WALL || nextCell.getType() == CellType.FENCE || (nextCell.getType() == CellType.TREE)
+                || nextCell.getType() == CellType.EMPTY || (nextCell.getActor() != null && nextCell.getActor().getTileName() == "skeleton")
+                || (nextCell.getActor() != null && nextCell.getActor().getTileName() == "scorpion")
+                || (nextCell.getActor() != null && nextCell.getActor().getTileName() == "bee") || (nextCell.getActor() != null && nextCell.getActor().getTileName() == "warrior")
                 || nextCell.getType() == CellType.CLOSED_DOOR && !getInventory().contains("key");
     }
 
@@ -97,7 +100,7 @@ public class Player extends Actor {
     }
 
     public boolean goToNextLevel(){
-        return (this.getCell().getType() == CellType.OPEN_DOOR);
+        return (this.getCell().getType() == CellType.STAIRS);
     }
 //    public Sword getSword(){
 //        return sword;

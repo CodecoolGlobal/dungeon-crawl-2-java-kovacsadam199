@@ -17,13 +17,13 @@
                      f..t..f..........f......f
                      f.....f..........f......f
                      fffff..tffffffffffff....f
-                     f.....t.f.ft.fvvf~f...f.f
-                     f....f..f.ft.fvvf.fffff.f
+                     f.....t.faft.fvvf~f...f.f
+                     f....f..f.ft.fvvf@fffff.f
                      f....f.......ffff.ff....f
                      f..fff..ffff.....=f.....f
                      f.w...f....ffffffff.....f
-                     f.@.c.ffff.fvvvvvvf....ff
-                     f.......f.t.ffffffff..wCf
+                     f...c.ffff.fvvvvvvf....ff
+                     f.......f.tfffffffff..wCf
                      f...s..f~.fvvvvvvf.....wf
                      ftffffff..ffffffff......f
                      f.........fvvvvvvf......f

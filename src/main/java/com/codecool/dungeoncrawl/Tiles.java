@@ -38,9 +38,10 @@ public class Tiles {
         tileMap.put("fence", new Tile(3, 5));
         tileMap.put("water", new Tile(8, 5));
         tileMap.put("simpleTree", new Tile(4, 2));
-        tileMap.put("ax", new Tile(10, 29));
+        tileMap.put("axe", new Tile(10, 29));
         tileMap.put("cutTree", new Tile(5, 0));
         tileMap.put("corona", new Tile(11, 24));
+        tileMap.put("stairs", new Tile(2, 6));
 
 
     }
