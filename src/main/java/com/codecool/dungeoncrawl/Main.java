@@ -127,7 +127,7 @@ public class Main extends Application {
     private void refresh() {
         Player player = map.getPlayer();
         if (player.goToNextLevel()){
-            map = MapLoader.loadMap("/map2.txt");
+            map = MapLoader.loadMap("/map2.txt", player);
             //map.setPlayer(player);
         }
         context.setFill(Color.BLACK);
