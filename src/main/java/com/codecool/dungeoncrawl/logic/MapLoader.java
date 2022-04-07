@@ -35,7 +35,7 @@ public class MapLoader {
                             cell.setType(CellType.CLOSED_DOOR);
                             break;
                         case 's':
-                            cell.setType(CellType.SKELETON);
+                            cell.setType(CellType.FLOOR);
                             Skeleton skeleton =new Skeleton(cell);
                             cell.setActor(skeleton);
                             map.addMonster(skeleton);
@@ -53,17 +53,17 @@ public class MapLoader {
                             //cell.setItem(new Key(cell));
                             break;
                         case 'w':
-                            cell.setType(CellType.WARRIOR);
+                            cell.setType(CellType.FLOOR);
                             cell.setActor(new Warrior(cell));
                             break;
                         case 'c':
-                            cell.setType(CellType.SCORPION);
+                            cell.setType(CellType.FLOOR);
                             Scorpion scorpion = new Scorpion(cell);
                             cell.setActor(scorpion);
                             map.addMonster(scorpion);
                             break;
                         case 'b':
-                            cell.setType(CellType.BEE);
+                            cell.setType(CellType.FLOOR);
                             cell.setActor(new Bee(cell));
                             break;
                         case 'f':

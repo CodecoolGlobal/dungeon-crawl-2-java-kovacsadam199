@@ -31,9 +31,11 @@ import java.util.LinkedList;
 public class Main extends Application {
 
     GameMap map = MapLoader.loadMap("/map.txt");
+    final int CANVAS_WIDTH = 20;
+    final int CANVAS_HEIGHT = 20;
     Canvas canvas = new Canvas(
-            map.getWidth() * Tiles.TILE_WIDTH,
-            map.getHeight() * Tiles.TILE_WIDTH);
+            CANVAS_WIDTH * Tiles.TILE_WIDTH,
+            CANVAS_HEIGHT * Tiles.TILE_WIDTH);
     GraphicsContext context = canvas.getGraphicsContext2D();
     Label healthLabel = new Label();
     Button pickupBtn = new Button();
@@ -57,13 +59,12 @@ public class Main extends Application {
         ui.add(new Label("Health: "), 0, 0);
         ui.add(healthLabel, 1, 0);
 
-
         BorderPane borderPane = new BorderPane();
-
         borderPane.setCenter(canvas);
         borderPane.setRight(ui);
 
         Scene scene = new Scene(borderPane);
+
         primaryStage.setScene(scene);
 
 
@@ -87,6 +88,7 @@ public class Main extends Application {
         pickupBtn.setOnAction(eventHandler);
         refresh();
         scene.setOnKeyPressed(this::onKeyPressed);
+
 
     }
 
@@ -130,15 +132,19 @@ public class Main extends Application {
         }
         context.setFill(Color.BLACK);
         context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        for (int x = 0; x < map.getWidth(); x++) {
-            for (int y = 0; y < map.getHeight(); y++) {
-                Cell cell = map.getCell(x, y);
+        int startingHeight = (int) (map.getPlayer().getY() - (CANVAS_HEIGHT-1)/2);
+        for (int x = 0; x < CANVAS_WIDTH; x++) {
+            int startingWidth = (int)(map.getPlayer().getX() - (CANVAS_WIDTH-1)/2);
+            for (int y = 0; y < CANVAS_HEIGHT; y++) {
+                Cell cell = map.getCell(startingWidth, startingHeight);
                 if (cell.getActor() != null) {
-                    Tiles.drawTile(context, cell.getActor(), x, y);
+                    Tiles.drawTile(context, cell.getActor(), y, x);
                 } else {
-                    Tiles.drawTile(context, cell, x, y);
+                    Tiles.drawTile(context, cell, y, x);
                 }
+                startingWidth++;
             }
+            startingHeight++;
         }
         healthLabel.setText("" + map.getPlayer().getHealth());
     }

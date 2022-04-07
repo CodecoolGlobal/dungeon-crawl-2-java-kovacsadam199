@@ -54,9 +54,10 @@ public class Player extends Actor {
     public void move(int dx, int dy) {
         Cell cell = this.getCell();
         Cell nextCell = this.getCell().getNeighbor(dx, dy);
+        boolean hasWeapon = inventory.contains("sword");
         if (cantMove(cell, nextCell)){
             if(isNeighbourEnemy(nextCell)){ // or other monster type can come here
-                cell.getActor().attack(dx,dy);
+                cell.getActor().attack(dx, dy, hasWeapon);
                 }
             nextCell = this.getCell();
             this.getCell().setActor(this);
@@ -75,11 +76,11 @@ public class Player extends Actor {
     }
 
     private boolean isNeighbourEnemy(Cell nextCell) {
-        return nextCell.getType() == CellType.SKELETON || nextCell.getType() == CellType.SCORPION || nextCell.getType() == CellType.BEE || nextCell.getType() == CellType.WARRIOR;
+        return (nextCell.getActor() != null && nextCell.getActor().getTileName() == "skeleton") || (nextCell.getActor() != null && nextCell.getActor().getTileName() == "scorpion")|| (nextCell.getActor() != null && nextCell.getActor().getTileName() == "bee")|| (nextCell.getActor() != null && nextCell.getActor().getTileName() == "warrior");
     }
 
     private boolean cantMove(Cell cell, Cell nextCell) {
-        return nextCell.getType() == CellType.WALL || nextCell.getType() == CellType.FENCE || (nextCell.getType() == CellType.TREE && getInventory().contains("ax")) || nextCell.getType() == CellType.EMPTY || nextCell.getType() == CellType.SKELETON || nextCell.getType() == CellType.SCORPION || nextCell.getType() == CellType.BEE || nextCell.getType() == CellType.WARRIOR
+        return nextCell.getType() == CellType.WALL || nextCell.getType() == CellType.FENCE || (nextCell.getType() == CellType.TREE && getInventory().contains("ax")) || nextCell.getType() == CellType.EMPTY || (nextCell.getActor() != null && nextCell.getActor().getTileName() == "skeleton")|| (nextCell.getActor() != null && nextCell.getActor().getTileName() == "scorpion") || (nextCell.getActor() != null && nextCell.getActor().getTileName() == "bee") || (nextCell.getActor() != null && nextCell.getActor().getTileName() == "warrior")
                 || nextCell.getType() == CellType.CLOSED_DOOR && !getInventory().contains("key");
     }
 
