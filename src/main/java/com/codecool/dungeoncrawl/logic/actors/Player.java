@@ -4,6 +4,7 @@ import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.items.Item;
 import com.codecool.dungeoncrawl.logic.items.Key;
+import com.codecool.dungeoncrawl.logic.MapLoader;
 
 import java.util.*;
 
@@ -45,7 +46,7 @@ public class Player extends Actor {
 
     public void pickUpSpecificItem(CellType currentCell) {
         String prepareInventory = currentCell.toString().toLowerCase(Locale.ROOT);
-        if (currentCell == CellType.SWORD || currentCell == CellType.KEY || currentCell == CellType.AX){
+        if (currentCell == CellType.SWORD || currentCell == CellType.KEY || currentCell == CellType.AXE){
             this.getCell().setType(CellType.FLOOR);
             inventory.add(prepareInventory);
         }
@@ -65,7 +66,7 @@ public class Player extends Actor {
             nextCell.setType(CellType.OPEN_DOOR);
         }
         if(nextCell.getType() == CellType.TREE &&
-                (getInventory().contains("ax"))){ // you need ax in inventory to cut tree
+                (getInventory().contains("axe"))){ // you need ax in inventory to cut tree
             nextCell.setType(CellType.CUTTREE);
         }
         cell.setActor(null);
@@ -82,40 +83,6 @@ public class Player extends Actor {
                 || nextCell.getType() == CellType.CLOSED_DOOR && !getInventory().contains("key");
     }
 
-    //aaaaaa
-
-//    public void move(int dx, int dy) {
-//        Cell nextCell = cell.getNeighbor(dx, dy);
-//        if (nextCell.getType() == CellType.WALL || nextCell.getType()== CellType.EMPTY || nextCell.getType()== CellType.SKELETON || nextCell.getType()==CellType.SCORPION || nextCell.getType()==CellType.BEE || nextCell.getType()==CellType.WARRIOR
-//                || nextCell.getType() == CellType.FENCE
-//                || nextCell.getType() == CellType.TREE && (cell.getActor() instanceof Player && !cell.getActor().getInventory().contains("ax"))
-//                || nextCell.getType() == CellType.CLOSED_DOOR && (cell.getActor() instanceof Player && !cell.getActor().getInventory().contains("key"))){
-//            if(cell.getActor() instanceof Player && nextCell.getType()==CellType.SKELETON || nextCell.getType()==CellType.SCORPION || nextCell.getType()==CellType.BEE || nextCell.getType()==CellType.WARRIOR){ // or other monster type can come here
-//                cell.getActor().attack(dx,dy);}
-//            nextCell = cell;
-//            cell.setActor(this);
-//        }
-//        if(nextCell.getType() == CellType.CLOSED_DOOR &&
-//                (cell.getActor() instanceof Player && cell.getActor().getInventory().contains("key"))){ // you need key in inventory to open door
-//            nextCell.setType(CellType.OPEN_DOOR);
-//        }
-//        if(nextCell.getType() == CellType.TREE &&
-//                (cell.getActor() instanceof Player && cell.getActor().getInventory().contains("ax"))){ // you need ax in inventory to cut tree
-//            nextCell.setType(CellType.CUTTREE);
-//        }
-//        cell.setActor(null);
-//        nextCell.setActor(this);
-//        cell = nextCell;
-//        //System.out.println(cell.getType());
-//    }
-//
-//
-
-
-
-
-
-    ////aaaaaa
     public String printInventory(){
         System.out.println(inventory); //test
         StringBuilder inventoryString= new StringBuilder();
@@ -126,6 +93,10 @@ public class Player extends Actor {
             }
         }
         return inventoryString.toString();
+    }
+
+    public boolean goToNextLevel(){
+        return (this.getCell().getType() == CellType.OPEN_DOOR);
     }
 //    public Sword getSword(){
 //        return sword;

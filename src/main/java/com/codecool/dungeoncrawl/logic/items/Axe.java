@@ -2,13 +2,13 @@ package com.codecool.dungeoncrawl.logic.items;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 
-public class Ax extends Item{
-    public Ax(Cell cell) {
+public class Axe extends Item{
+    public Axe(Cell cell) {
         super(cell);
     }
 
     @Override
     public String getTileName() {
-        return "ax";
+        return "axe";
     }
 }

@@ -16,7 +16,7 @@ public enum CellType {
     WATER("water"),
     TREE("simpleTree"),
     CUTTREE("cutTree"),
-    AX("ax"),
+    AXE("axe"),
     CORONA("corona");
 
     private final String tileName;

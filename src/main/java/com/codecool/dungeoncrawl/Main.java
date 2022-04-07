@@ -1,6 +1,7 @@
 package com.codecool.dungeoncrawl;
 
 import com.codecool.dungeoncrawl.logic.Cell;
+import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
 import com.codecool.dungeoncrawl.logic.actors.MovingMonsters;
@@ -28,7 +29,8 @@ import javafx.stage.Stage;
 import java.util.LinkedList;
 
 public class Main extends Application {
-    GameMap map = MapLoader.loadMap();
+
+    GameMap map = MapLoader.loadMap("/map.txt");
     Canvas canvas = new Canvas(
             map.getWidth() * Tiles.TILE_WIDTH,
             map.getHeight() * Tiles.TILE_WIDTH);
@@ -44,6 +46,9 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         int rowCounter = 5;
         Player player = map.getPlayer();
+        if (player.goToNextLevel()){
+            map = MapLoader.loadMap("/map2.txt");
+        }
 
         GridPane ui = new GridPane();
         ui.setPrefWidth(200);
@@ -118,6 +123,11 @@ public class Main extends Application {
     }
 
     private void refresh() {
+        Player player = map.getPlayer();
+        if (player.goToNextLevel()){
+            map = MapLoader.loadMap("/map2.txt");
+            //map.setPlayer(player);
+        }
         context.setFill(Color.BLACK);
         context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
         for (int x = 0; x < map.getWidth(); x++) {
