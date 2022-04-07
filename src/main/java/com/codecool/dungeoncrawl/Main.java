@@ -12,6 +12,7 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.*;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -22,8 +23,10 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.util.LinkedList;
@@ -39,6 +42,39 @@ public class Main extends Application {
     GraphicsContext context = canvas.getGraphicsContext2D();
     Label healthLabel = new Label();
     Button pickupBtn = new Button();
+    final Button quitButton = new Button("quit");
+    final Button playAgainButton = new Button("play again");
+    Stage primaryStage;
+    GridPane ui = new GridPane();
+    BorderPane borderPane = new BorderPane();
+    int rowCounter = 5;
+    Stage dialog = new Stage();
+    final String LOST_GAME = "You died!";
+    final String WON_GAME = "Congrats, you won!";
+
+    EventHandler quit = new EventHandler() {
+        @Override
+        public void handle(Event event) {
+            System.exit(0);
+        }
+    };
+
+    EventHandler playAgain = new EventHandler() {
+        @Override
+        public void handle(Event event) {
+            resetGame();
+        }
+    };
+
+    private void resetGame() {
+        dialog.close();
+        dialog = new Stage();
+        Player player = map.getPlayer();
+        map = MapLoader.loadMap("/map.txt", player);
+        map.getPlayer().setHealth(10);
+        map.getPlayer().resetInventory();
+        pickupBtn.fire();
+    }
 
     public static void main(String[] args) {
         launch(args);
@@ -46,20 +82,18 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        int rowCounter = 5;
+        this.primaryStage = primaryStage;
         Player player = map.getPlayer();
         if (player.goToNextLevel()){
             map = MapLoader.loadMap("/map2.txt");
         }
 
-        GridPane ui = new GridPane();
         ui.setPrefWidth(200);
         ui.setPadding(new Insets(10));
 
         ui.add(new Label("Health: "), 0, 0);
         ui.add(healthLabel, 1, 0);
 
-        BorderPane borderPane = new BorderPane();
         borderPane.setCenter(canvas);
         borderPane.setRight(ui);
 
@@ -86,6 +120,8 @@ public class Main extends Application {
         };
 
         pickupBtn.setOnAction(eventHandler);
+        quitButton.setOnAction(quit);
+        playAgainButton.setOnAction(playAgain);
         refresh();
         scene.setOnKeyPressed(this::onKeyPressed);
 
@@ -96,6 +132,7 @@ public class Main extends Application {
 
     private void onKeyPressed(KeyEvent keyEvent) {
         String usedItem = "";
+        String isGameOver = "";
         switch (keyEvent.getCode()) {
             case UP:
                 usedItem = map.getPlayer().move(0, -1);
@@ -126,17 +163,35 @@ public class Main extends Application {
             }
 
         }
+        isGameOver = map.getPlayer().endIfGameOver();
+        if(isGameOver.equals(LOST_GAME)){
+            showEndOfGameDialog(LOST_GAME);
+        }
+        else if(isGameOver.equals(WON_GAME)){
+            showEndOfGameDialog(WON_GAME);
+        }
         refresh();
-        map.getPlayer().endIfGameOver();
 
-        map.getPlayer().endIfWin();
+    }
+
+    private void showEndOfGameDialog(String message) {
+
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.initOwner(primaryStage);
+        VBox dialogVbox = new VBox(20);
+        dialogVbox.setAlignment(Pos.CENTER);
+        dialogVbox.getChildren().add(new Text(message));
+        dialogVbox.getChildren().add(playAgainButton);
+        dialogVbox.getChildren().add(quitButton);
+        Scene dialogScene = new Scene(dialogVbox, 300, 200);
+        dialog.setScene(dialogScene);
+        dialog.show();
     }
 
     private void refresh() {
         Player player = map.getPlayer();
         if (player.goToNextLevel()){
             map = MapLoader.loadMap("/map2.txt", player);
-            //map.setPlayer(player);
         }
         context.setFill(Color.BLACK);
         context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());

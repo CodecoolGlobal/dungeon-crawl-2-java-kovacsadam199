@@ -15,34 +15,32 @@ public class Player extends Actor {
 
     public Player(Cell cell) {
         super(cell);
-        //inventory.put("key", 1);
     }
 
-    public  Player getPlayer(){
-        return this;
-    }
+
     public List<String> getInventory() {
         return inventory;
+    }
+
+    public void resetInventory(){
+        this.inventory = new ArrayList<>();
     }
 
     public String getTileName() {
         return "player";
     }
-    public void endIfGameOver(){
-       if(this.getHealth()<=0)
-       {
-           //TODO: change it to not close program but send game over message
-           System.out.println("Game over");
-           System.exit(0);
-       }
 
-    }
-
-    public void endIfWin(){
-        if(inventory.contains("corona")){
-            System.out.println("You WIN.");
-            System.exit(0);
+    public String endIfGameOver(){
+        if(this.getHealth() <= 0){
+            return "You died!";
         }
+        else if(this.inventory.contains("corona")){
+            return "Congrats, you won!";
+        }
+        else{
+            return "";
+        }
+
     }
 
     public String pickUp() {
@@ -117,9 +115,6 @@ public class Player extends Actor {
     public boolean goToNextLevel(){
         return (this.getCell().getType() == CellType.STAIRS);
     }
-//    public Sword getSword(){
-//        return sword;
-    //TODO: get sword from hashmap of items
-//    }
+
 
 }
