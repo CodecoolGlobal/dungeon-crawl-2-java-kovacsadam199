@@ -90,6 +90,8 @@ public class Main extends Application {
         scene.setOnKeyPressed(this::onKeyPressed);
 
 
+
+
     }
 
     private void onKeyPressed(KeyEvent keyEvent) {
@@ -122,6 +124,8 @@ public class Main extends Application {
         }
         refresh();
         map.getPlayer().endIfGameOver();
+
+        map.getPlayer().endIfWin();
     }
 
     private void refresh() {

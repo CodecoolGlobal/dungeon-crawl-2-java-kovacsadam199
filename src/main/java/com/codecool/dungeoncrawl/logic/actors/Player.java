@@ -37,6 +37,13 @@ public class Player extends Actor {
 
     }
 
+    public void endIfWin(){
+        if(inventory.contains("corona")){
+            System.out.println("You WIN.");
+            System.exit(0);
+        }
+    }
+
     public String pickUp() {
         System.out.println(this.getCell().getType()); // test
         CellType currentCell = this.getCell().getType();
@@ -46,7 +53,8 @@ public class Player extends Actor {
 
     public void pickUpSpecificItem(CellType currentCell) {
         String prepareInventory = currentCell.toString().toLowerCase(Locale.ROOT);
-        if (currentCell == CellType.SWORD || currentCell == CellType.KEY || currentCell == CellType.AXE){
+        if (currentCell == CellType.SWORD || currentCell == CellType.KEY || currentCell == CellType.AXE
+            || currentCell == CellType.CORONA) {
             this.getCell().setType(CellType.FLOOR);
             inventory.add(prepareInventory);
         }
