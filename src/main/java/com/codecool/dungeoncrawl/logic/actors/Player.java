@@ -44,8 +44,6 @@ public class Player extends Actor {
     }
 
     public String pickUp() {
-        System.out.println(this.getCell().getType()); // test
-        System.out.println(this.getX() + ", " + this.getY());
         CellType currentCell = this.getCell().getType();
         pickUpSpecificItem(currentCell);
         return printInventory();
@@ -101,7 +99,6 @@ public class Player extends Actor {
     }
 
     public String printInventory(){
-        System.out.println(inventory); //test
         StringBuilder inventoryString= new StringBuilder();
         if (inventory != null) {
             for (String item : inventory) {

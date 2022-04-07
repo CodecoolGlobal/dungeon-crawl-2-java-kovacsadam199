@@ -132,11 +132,9 @@ public class MapLoader {
                             break;
                         case '/':
                             cell.setType(CellType.SWORD);
-                            //cell.setItem(new Sword(cell));
                             break;
                         case '~':
                             cell.setType(CellType.KEY);
-                            //cell.setItem(new Key(cell));
                             break;
                         case 'w':
                             cell.setType(CellType.FLOOR);
