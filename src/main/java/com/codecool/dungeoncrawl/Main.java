@@ -6,7 +6,12 @@ import com.codecool.dungeoncrawl.logic.MapLoader;
 import com.codecool.dungeoncrawl.logic.actors.MovingMonsters;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.geometry.Insets;
+import javafx.scene.*;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -15,7 +20,9 @@ import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.util.LinkedList;
@@ -35,6 +42,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        int rowCounter = 5;
+        Player player = map.getPlayer();
+
         GridPane ui = new GridPane();
         ui.setPrefWidth(200);
         ui.setPadding(new Insets(10));
@@ -50,15 +60,29 @@ public class Main extends Application {
 
         Scene scene = new Scene(borderPane);
         primaryStage.setScene(scene);
-        refresh();
-        scene.setOnKeyPressed(this::onKeyPressed);
+
 
         primaryStage.setTitle("Dungeon Crawl");
         primaryStage.show();
-        ui.add(pickupBtn, 2, 3);
-        System.out.println("PICK");
+        ui.addRow(3,pickupBtn);
         pickupBtn.setText("Pick up!");
         pickupBtn.setFocusTraversable(false);
+
+        Text inv = new Text("Inventory: ");
+        ui.addRow(4, inv);
+        ui.addRow(5, new Label("Empty"));
+        EventHandler eventHandler = new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                ui.getChildren().remove(4);
+                ui.addRow(rowCounter + 1, new Text(player.pickUp()));
+            }
+        };
+
+        pickupBtn.setOnAction(eventHandler);
+        refresh();
+        scene.setOnKeyPressed(this::onKeyPressed);
+
     }
 
     private void onKeyPressed(KeyEvent keyEvent) {
@@ -96,7 +120,6 @@ public class Main extends Application {
     private void refresh() {
         context.setFill(Color.BLACK);
         context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        Player player = map.getPlayer();
         for (int x = 0; x < map.getWidth(); x++) {
             for (int y = 0; y < map.getHeight(); y++) {
                 Cell cell = map.getCell(x, y);

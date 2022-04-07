@@ -4,6 +4,8 @@ import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.Drawable;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public abstract class Actor implements Drawable{
@@ -21,13 +23,13 @@ public abstract class Actor implements Drawable{
 
     }
 
+
+
     public int getHealth() {
         return health;
     }
 
-    public Map<String, Integer> getInventory() {
-        return cell.getActor().getInventory();
-    }
+
 
     public Cell getCell() {
         return cell;
@@ -73,5 +75,4 @@ public abstract class Actor implements Drawable{
 //    public void attack(Sword sword){
 //
 //    }
-
 }

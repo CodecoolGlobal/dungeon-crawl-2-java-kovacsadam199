@@ -11,7 +11,14 @@ public enum CellType {
     WARRIOR("warrior"),
     BEE("bee"),
     CLOSED_DOOR("closed_door"),
-    OPEN_DOOR("open_door");
+    OPEN_DOOR("open_door"),
+    FENCE("fence"),
+    WATER("water"),
+    TREE("simpleTree"),
+    CUTTREE("cutTree"),
+    AX("ax"),
+    CORONA("corona");
+
     private final String tileName;
 
     CellType(String tileName) {
