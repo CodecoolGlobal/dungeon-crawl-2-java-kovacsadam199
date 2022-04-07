@@ -53,9 +53,10 @@ public class Player extends Actor {
     public void move(int dx, int dy) {
         Cell cell = this.getCell();
         Cell nextCell = this.getCell().getNeighbor(dx, dy);
+        boolean hasWeapon = inventory.contains("sword");
         if (cantMove(cell, nextCell)){
             if(isNeighbourEnemy(nextCell)){ // or other monster type can come here
-                cell.getActor().attack(dx,dy);
+                cell.getActor().attack(dx, dy, hasWeapon);
                 }
             nextCell = this.getCell();
             this.getCell().setActor(this);
