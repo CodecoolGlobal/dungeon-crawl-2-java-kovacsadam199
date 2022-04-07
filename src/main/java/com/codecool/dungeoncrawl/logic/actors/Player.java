@@ -28,13 +28,17 @@ public class Player extends Actor {
     public String getTileName() {
         return "player";
     }
-    public void endIfGameOver(){
-       if(this.getHealth()<=0)
-       {
-           //TODO: change it to not close program but send game over message
-           System.out.println("Game over");
-           System.exit(0);
-       }
+
+    public String endIfGameOver(){
+        if(this.getHealth() <= 0){
+            return "You died!";
+        }
+        else if(this.inventory.contains("corona")){
+            return "Congrats, you won!";
+        }
+        else{
+            return "";
+        }
 
     }
 
@@ -48,7 +52,7 @@ public class Player extends Actor {
 
     public void pickUpSpecificItem(CellType currentCell) {
         String prepareInventory = currentCell.toString().toLowerCase(Locale.ROOT);
-        if (currentCell == CellType.SWORD || currentCell == CellType.KEY || currentCell == CellType.AXE){
+        if (currentCell == CellType.SWORD || currentCell == CellType.KEY || currentCell == CellType.AXE || currentCell == CellType.CORONA){
             this.getCell().setType(CellType.FLOOR);
             inventory.add(prepareInventory);
         }
