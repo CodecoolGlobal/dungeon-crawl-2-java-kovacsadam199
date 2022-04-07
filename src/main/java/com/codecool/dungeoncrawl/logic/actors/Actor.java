@@ -80,6 +80,10 @@ public abstract class Actor implements Drawable{
             enemy.loseHealth(playerDamage);
         }
     }
+
+    public void setPosition(Cell cell){
+        this.cell = cell;
+    }
 //    public void attack(Sword sword){
 //
 //    }
