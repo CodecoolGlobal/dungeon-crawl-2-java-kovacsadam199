@@ -5,6 +5,7 @@ import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.items.Item;
 import com.codecool.dungeoncrawl.logic.items.Key;
 import com.codecool.dungeoncrawl.logic.MapLoader;
+import com.sun.tools.javac.Main;
 
 import java.util.*;
 
@@ -46,6 +47,7 @@ public class Player extends Actor {
 
     public String pickUp() {
         System.out.println(this.getCell().getType()); // test
+        System.out.println(this.getX() + ", " + this.getY());
         CellType currentCell = this.getCell().getType();
         pickUpSpecificItem(currentCell);
         return printInventory();
@@ -59,7 +61,8 @@ public class Player extends Actor {
             inventory.add(prepareInventory);
         }
     }
-    public void move(int dx, int dy) {
+    public String move(int dx, int dy) {
+        String usedItem = "";
         Cell cell = this.getCell();
         Cell nextCell = this.getCell().getNeighbor(dx, dy);
         boolean hasWeapon = inventory.contains("sword");
@@ -76,11 +79,15 @@ public class Player extends Actor {
         }
         if(nextCell.getType() == CellType.CLOSED_DOOR &&
                 (getInventory().contains("key"))){ // you need key in inventory to open door
+            inventory.remove("key");
             nextCell.setType(CellType.OPEN_DOOR);
+            usedItem = "key";
+
         }
         cell.setActor(null);
         nextCell.setActor(this);
         this.setCell(nextCell);
+        return usedItem;
     }
 
     private boolean isNeighbourEnemy(Cell nextCell) {
@@ -100,7 +107,7 @@ public class Player extends Actor {
         StringBuilder inventoryString= new StringBuilder();
         if (inventory != null) {
             for (String item : inventory) {
-                inventoryString.append(item).append(",");
+                inventoryString.append(item);
                 inventoryString.append("\n");
             }
         }

@@ -17,9 +17,7 @@ public abstract class MovingMonsters extends Actor {
             removeFromStartingPosition();
         Cell cell = this.getCell();
         boolean hasWeapon = playerHasWeapon(dx, dy);
-        System.out.println(cell.getType());
-        if (cell.getType() == CellType.SWORD)
-            System.out.println(cell.getX());
+        if (cell.getType() == CellType.SWORD);
         Cell nextCell = this.getCell().getNeighbor(dx, dy);
         if (cantMove(cell, nextCell)) {
             if (nextCell.getActor() != null && nextCell.getActor().getTileName() != null && nextCell.getActor().getTileName() == "player") {
@@ -34,7 +32,6 @@ public abstract class MovingMonsters extends Actor {
         cell.setActor(null);
         this.setCell(nextCell);
         if (cell.getType() == CellType.SWORD || cell.getType() == CellType.KEY || cell.getType() == CellType.AXE) {
-            System.out.println(cell.getType());
             cell.setType(cell.getType());
         }
 
