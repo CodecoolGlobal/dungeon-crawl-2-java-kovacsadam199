@@ -3,7 +3,7 @@ package com.codecool.dungeoncrawl;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
-import com.codecool.dungeoncrawl.logic.actors.Actor;
+import com.codecool.dungeoncrawl.logic.actors.MovingMonsters;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -12,6 +12,7 @@ import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.geometry.Insets;
 import javafx.scene.*;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
@@ -23,6 +24,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
+import java.util.LinkedList;
 
 public class Main extends Application {
     GameMap map = MapLoader.loadMap();
@@ -87,7 +90,6 @@ public class Main extends Application {
             case UP:
                 map.getPlayer().move(0, -1);
                 refresh();
-                map.getPlayer().gameOver();
                 break;
             case DOWN:
                 map.getPlayer().move(0, 1);
@@ -102,6 +104,17 @@ public class Main extends Application {
                 refresh();
                 break;
         }
+        LinkedList<MovingMonsters> monsters = map.getMovingMonsters();
+        for (MovingMonsters monster:monsters
+             ) {
+            if (monster.getHealth() >0){
+                int[] nextMoves = monster.getNextMove();
+                monster.move(nextMoves[0],nextMoves[1]);
+            }
+
+        }
+        refresh();
+        map.getPlayer().endIfGameOver();
     }
 
     private void refresh() {

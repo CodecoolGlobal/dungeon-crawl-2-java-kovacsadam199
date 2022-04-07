@@ -40,7 +40,9 @@ public class MapLoader {
                             break;
                         case 's':
                             cell.setType(CellType.SKELETON);
-                            new Skeleton(cell);
+                            Skeleton skeleton =new Skeleton(cell);
+                            cell.setActor(skeleton);
+                            map.addMonster(skeleton);
                             break;
                         case '@':
                             cell.setType(CellType.FLOOR);
@@ -60,7 +62,9 @@ public class MapLoader {
                             break;
                         case 'c':
                             cell.setType(CellType.SCORPION);
-                            cell.setActor(new Scorpion(cell));
+                            Scorpion scorpion = new Scorpion(cell);
+                            cell.setActor(scorpion);
+                            map.addMonster(scorpion);
                             break;
                         case 'b':
                             cell.setType(CellType.BEE);
