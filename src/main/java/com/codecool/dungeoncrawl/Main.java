@@ -162,13 +162,6 @@ public class Main extends Application {
             }
 
         }
-//        isGameOver = map.getPlayer().endIfGameOver();
-//        if(isGameOver.equals(LOST_GAME)){
-//            showEndOfGameDialog(LOST_GAME);
-//        }
-//        else if(isGameOver.equals(WON_GAME)){
-//            showEndOfGameDialog(WON_GAME);
-//        }
         refresh();
 
     }
@@ -191,6 +184,9 @@ public class Main extends Application {
         Player player = map.getPlayer();
         if (player.goToNextLevel()){
             map = MapLoader.loadMap("/map2.txt", player);
+        }
+        if (player.pickUpCorona()){
+            showEndOfGameDialog(WON_GAME);
         }
         context.setFill(Color.BLACK);
         context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
