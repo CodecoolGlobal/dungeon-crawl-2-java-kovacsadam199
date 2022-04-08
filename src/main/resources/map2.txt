@@ -12,7 +12,7 @@
                      f..........t...f......t.f
                      f...........ffffffff....f
                      f...t......../...t......f
-                     f......t.........t....~.f
+                     f......t.........t....s.f
                      f.............t..f......f
                      f..t..f..........f......f
                      f.....f..........f......f
@@ -22,8 +22,8 @@
                      f....f.......ffff.ff....f
                      f..fff..ffff.....=f.....f
                      f.w...f....ffffffff.....f
-                     f...c.ffff.fvvvvvvf....ff
-                     f.......f.tfffffffff..wCf
+                     f...c.ffff.fvvvvvvf...sff
+                     f.......f.tfffffffff..=Cf
                      f...s..f~.fvvvvvvf.....wf
                      ftffffff..ffffffff......f
                      f.........fvvvvvvf......f

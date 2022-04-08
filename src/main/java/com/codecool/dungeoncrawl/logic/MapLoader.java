@@ -74,7 +74,7 @@ public class MapLoader {
                             cell.setType(CellType.TREE);
                             break;
                         case 'C':
-                            cell.setType(CellType.CORONA);
+                            cell.setType(CellType.CROWN);
                             break;
                         case 'a':
                             cell.setType(CellType.AXE);
@@ -160,7 +160,7 @@ public class MapLoader {
                             cell.setType(CellType.TREE);
                             break;
                         case 'C':
-                            cell.setType(CellType.CORONA);
+                            cell.setType(CellType.CROWN);
                             break;
                         case 'a':
                             cell.setType(CellType.AXE);

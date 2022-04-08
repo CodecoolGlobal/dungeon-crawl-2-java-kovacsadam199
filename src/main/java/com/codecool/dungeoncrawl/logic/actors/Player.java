@@ -34,13 +34,17 @@ public class Player extends Actor {
         if(this.getHealth() <= 0){
             return "You died!";
         }
-        else if(this.inventory.contains("corona")){
+        else if(this.inventory.contains("crown")){
             return "Congrats, you won!";
         }
         else{
             return "";
         }
 
+    }
+
+    public boolean pickUpCorona(){
+        return (this.getCell().getType() == CellType.CROWN);
     }
 
     public String pickUp() {
@@ -52,7 +56,7 @@ public class Player extends Actor {
     public void pickUpSpecificItem(CellType currentCell) {
         String prepareInventory = currentCell.toString().toLowerCase(Locale.ROOT);
         if (currentCell == CellType.SWORD || currentCell == CellType.KEY || currentCell == CellType.AXE
-            || currentCell == CellType.CORONA) {
+            || currentCell == CellType.CROWN) {
             this.getCell().setType(CellType.FLOOR);
             inventory.add(prepareInventory);
         }

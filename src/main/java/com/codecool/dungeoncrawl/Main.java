@@ -125,6 +125,13 @@ public class Main extends Application {
     private void onKeyPressed(KeyEvent keyEvent) {
         String usedItem = "";
         String isGameOver = "";
+        isGameOver = map.getPlayer().endIfGameOver();
+        if(isGameOver.equals(LOST_GAME)){
+            showEndOfGameDialog(LOST_GAME);
+        }
+        else if(isGameOver.equals(WON_GAME)){
+            showEndOfGameDialog(WON_GAME);
+        }
         switch (keyEvent.getCode()) {
             case UP:
                 usedItem = map.getPlayer().move(0, -1);
@@ -155,13 +162,13 @@ public class Main extends Application {
             }
 
         }
-        isGameOver = map.getPlayer().endIfGameOver();
-        if(isGameOver.equals(LOST_GAME)){
-            showEndOfGameDialog(LOST_GAME);
-        }
-        else if(isGameOver.equals(WON_GAME)){
-            showEndOfGameDialog(WON_GAME);
-        }
+//        isGameOver = map.getPlayer().endIfGameOver();
+//        if(isGameOver.equals(LOST_GAME)){
+//            showEndOfGameDialog(LOST_GAME);
+//        }
+//        else if(isGameOver.equals(WON_GAME)){
+//            showEndOfGameDialog(WON_GAME);
+//        }
         refresh();
 
     }
