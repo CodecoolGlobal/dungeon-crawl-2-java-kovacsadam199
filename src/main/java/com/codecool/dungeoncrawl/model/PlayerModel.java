@@ -15,7 +15,6 @@ public class PlayerModel extends BaseModel {
     }
 
     public PlayerModel(Player player) {
-        this.playerName = player.getName();
         this.x = player.getX();
         this.y = player.getY();
 
