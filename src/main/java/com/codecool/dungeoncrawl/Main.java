@@ -85,7 +85,7 @@ public class Main extends Application {
         @Override
         public void handle(Event event) {
             savedGameName = textField.getText();
-            dbManager.saveAll(map.getPlayer(), currentMap, savedGameName);
+            dbManager.saveAll(map.getPlayer(), currentMap, savedGameName, map.getMovingMonsters());
         }
     };
 
