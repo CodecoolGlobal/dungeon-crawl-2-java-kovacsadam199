@@ -11,6 +11,8 @@ import org.postgresql.ds.PGSimpleDataSource;
 import javax.sql.DataSource;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.LinkedList;
 
@@ -43,7 +45,7 @@ public class GameDatabaseManager {
     }
 
     public void saveAll(Player player, String currentMap, String savedGameName, LinkedList<MovingMonsters> monstersList){
-        Date currentDate = new Date(Calendar.getInstance().getTimeInMillis());
+        TimeStamp currentDate = new Timestamp(System.currentTimeMillis());
         PlayerModel model = new PlayerModel(player, savedGameName);
         GameState gameState = new GameState(currentMap, currentDate, model);
         savePlayer(model);

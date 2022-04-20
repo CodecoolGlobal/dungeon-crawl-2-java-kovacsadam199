@@ -21,7 +21,7 @@ public class GameStateDaoJdbc implements GameStateDao {
             String sql = "INSERT INTO game_state (current_map, saved_at, player_id) VALUES (?, ?, ?)";
             PreparedStatement statement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, state.getCurrentMap());
-            statement.setDate(2, state.getSavedAt());
+            statement.setTimestamp(2, state.getSavedAt());
             statement.setInt(3, state.getPlayer().getId());
             statement.executeUpdate();
             ResultSet resultSet = statement.getGeneratedKeys();
@@ -40,7 +40,7 @@ public class GameStateDaoJdbc implements GameStateDao {
             PreparedStatement statement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setInt(4,state.getId());
             statement.setString(1,state.getCurrentMap());
-            statement.setDate(2,state.getSavedAt());
+            statement.setTimestamp(2,state.getSavedAt());
             statement.setInt(3,state.getPlayer().getId());
             statement.execute();
         } catch (SQLException e) {
@@ -57,7 +57,7 @@ public class GameStateDaoJdbc implements GameStateDao {
             statement.execute();
             ResultSet rs = statement.getGeneratedKeys();
             rs.next();
-            return new GameState(rs.getString(2), rs.getDate(3));  //TODO: set player to this state at upper level
+            return new GameState(rs.getString(2), rs.getTimestamp(3));  //TODO: set player to this state at upper level
         } catch (SQLException e) {
             throw new RuntimeException("Error while reading all authors", e);
         }
