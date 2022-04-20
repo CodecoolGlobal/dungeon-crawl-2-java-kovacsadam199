@@ -34,6 +34,19 @@ public class PlayerDaoJdbc implements PlayerDao {
 
     @Override
     public void update(PlayerModel player) {
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "UPDATE player SET player_name=?, hp=?, x=?, y=? WHERE id = ?";
+            PreparedStatement statement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            statement.setInt(5,player.getId());
+            statement.setString(1,player.getPlayerName());
+            statement.setInt(2,player.getHp());
+            statement.setInt(3,player.getX());
+            statement.setInt(4,player.getY());
+            statement.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException("Error while reading all authors", e);
+        }
+
 
 
     }
