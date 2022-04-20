@@ -17,6 +17,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
@@ -43,8 +44,10 @@ public class Main extends Application {
     Label healthLabel = new Label();
     GameDatabaseManager dbManager;
     Button pickupBtn = new Button();
-    final Button quitButton = new Button("quit");
-    final Button playAgainButton = new Button("play again");
+    final Button quitButton = new Button("Quit");
+    final Button playAgainButton = new Button("Play again");
+    final Button saveButton = new Button("Save");
+    final Button cancelButton = new Button("Cancel");
     Stage primaryStage;
     GridPane ui = new GridPane();
     BorderPane borderPane = new BorderPane();
@@ -100,7 +103,6 @@ public class Main extends Application {
         borderPane.setRight(ui);
 
         Scene scene = new Scene(borderPane);
-
         primaryStage.setScene(scene);
 
 
@@ -127,16 +129,34 @@ public class Main extends Application {
         refresh();
         scene.setOnKeyPressed(this::onKeyPressed);
 
+
     }
     private void onKeyReleased(KeyEvent keyEvent) {
         KeyCombination exitCombinationMac = new KeyCodeCombination(KeyCode.W, KeyCombination.SHORTCUT_DOWN);
         KeyCombination exitCombinationWin = new KeyCodeCombination(KeyCode.F4, KeyCombination.ALT_DOWN);
+
+        KeyCombination saveCombinationLin = new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_ANY);
         if (exitCombinationMac.match(keyEvent)
                 || exitCombinationWin.match(keyEvent)
                 || keyEvent.getCode() == KeyCode.ESCAPE) {
             System.exit(0);
         }
+
+        if (saveCombinationLin.match(keyEvent)){
+            dialog.initModality(Modality.APPLICATION_MODAL);
+            dialog.initOwner(primaryStage);
+            VBox dialogVbox = new VBox(20);
+            dialogVbox.setAlignment(Pos.CENTER);
+            dialogVbox.getChildren().add(new Text("Save as: "));
+            dialogVbox.getChildren().add(new TextField());
+            dialogVbox.getChildren().add(saveButton);
+            dialogVbox.getChildren().add(cancelButton);
+            Scene dialogScene = new Scene(dialogVbox, 300, 200);
+            dialog.setScene(dialogScene);
+            dialog.show();
+        }
     }
+
 
     private void onKeyPressed(KeyEvent keyEvent) {
         String usedItem = "";
@@ -167,6 +187,13 @@ public class Main extends Application {
                 usedItem = map.getPlayer().move(1,0);
                 refresh();
                 break;
+            case W:
+                onKeyReleased(keyEvent);
+            case F4:
+                onKeyReleased(keyEvent);
+            case S:
+                onKeyReleased(keyEvent);
+
         }
         if(usedItem.equals("key")){
             pickupBtn.fire();
