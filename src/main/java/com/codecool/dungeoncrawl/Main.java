@@ -86,6 +86,7 @@ public class Main extends Application {
         public void handle(Event event) {
             savedGameName = textField.getText();
             dbManager.saveAll(map.getPlayer(), currentMap, savedGameName);
+            System.exit(0);
         }
     };
 
