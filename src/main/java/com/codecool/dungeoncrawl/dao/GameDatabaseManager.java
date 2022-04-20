@@ -1,7 +1,9 @@
 package com.codecool.dungeoncrawl.dao;
 
 import com.codecool.dungeoncrawl.logic.actors.Player;
+import com.codecool.dungeoncrawl.logic.items.Item;
 import com.codecool.dungeoncrawl.model.GameState;
+import com.codecool.dungeoncrawl.model.ItemModel;
 import com.codecool.dungeoncrawl.model.PlayerModel;
 import org.postgresql.ds.PGSimpleDataSource;
 
@@ -9,20 +11,30 @@ import javax.sql.DataSource;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.Calendar;
+import java.util.LinkedList;
 
 
 public class GameDatabaseManager {
     private PlayerDao playerDao;
+    private ItemDao ItemDao;
     private GameStateDao gameStateDao;
 
     public void setup() throws SQLException {
         DataSource dataSource = connect();
         playerDao = new PlayerDaoJdbc(dataSource);
         gameStateDao = new GameStateDaoJdbc(dataSource);
+        ItemDao = new ItemDaoJdbc(dataSource);
     }
 
     public void savePlayer(PlayerModel model) {
         playerDao.add(model);
+    }
+
+    public void saveItems(LinkedList<Item> itemsListLinkedList, GameState gameState) {
+        for (Item item : itemsListLinkedList) {
+            ItemModel itemModel = new ItemModel(item.getTileName(), item.getX(), item.getY(), item.getPicked(), gameState);
+            ItemDao.add(itemModel, gameState);
+        }
     }
 
     public void saveGameState(PlayerModel model, String currentMap) {
@@ -31,9 +43,10 @@ public class GameDatabaseManager {
         gameStateDao.add(gameState);
     }
 
-    public void saveAll(Player player, String currentMap, String savedGameName){
+    public void saveAll(Player player, String currentMap, String savedGameName, LinkedList<Item> itemLinkedList, GameState gameState){
         PlayerModel model = new PlayerModel(player, savedGameName);
         savePlayer(model);
+        saveItems(itemLinkedList, gameState);
         saveGameState(model, currentMap);
     }
 

@@ -6,6 +6,7 @@ import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
 import com.codecool.dungeoncrawl.logic.actors.MovingMonsters;
 import com.codecool.dungeoncrawl.logic.actors.Player;
+import com.codecool.dungeoncrawl.model.GameState;
 import com.codecool.dungeoncrawl.model.PlayerModel;
 import javafx.application.Application;
 import javafx.event.Event;
@@ -85,7 +86,7 @@ public class Main extends Application {
         @Override
         public void handle(Event event) {
             savedGameName = textField.getText();
-            dbManager.saveAll(map.getPlayer(), currentMap, savedGameName);
+            dbManager.saveAll(map.getPlayer(), currentMap, savedGameName, map.getItems());
             System.exit(0);
         }
     };
