@@ -8,6 +8,8 @@ import org.postgresql.ds.PGSimpleDataSource;
 import javax.sql.DataSource;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 
 
@@ -26,8 +28,8 @@ public class GameDatabaseManager {
     }
 
     public void saveGameState(PlayerModel model, String currentMap) {
-        Date currentDate = new Date(Calendar.getInstance().getTimeInMillis());
-        GameState gameState = new GameState(currentMap, currentDate, model);
+        Timestamp date = new Timestamp(System.currentTimeMillis());
+        GameState gameState = new GameState(currentMap, date, model);
         gameStateDao.add(gameState);
     }
 
