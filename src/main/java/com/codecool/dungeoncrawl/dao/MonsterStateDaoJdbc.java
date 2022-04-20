@@ -28,8 +28,7 @@ public class MonsterStateDaoJdbc implements MonsterStateDao {
             statement.executeUpdate();
             ResultSet resultSet = statement.getGeneratedKeys();
             resultSet.next();
-            monster.getState().setId(resultSet.getInt(1));
-            //monster.getState(resultSet.getInt(1));
+            monster.setId(resultSet.getInt(1));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
