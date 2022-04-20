@@ -30,6 +30,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.LinkedList;
 
 public class Main extends Application {
@@ -85,8 +86,8 @@ public class Main extends Application {
         @Override
         public void handle(Event event) {
             savedGameName = textField.getText();
-            dbManager.saveAll(map.getPlayer(), currentMap, savedGameName);
-            System.exit(0);
+            dbManager.saveAll(map.getPlayer(), currentMap, savedGameName, map.getMovingMonsters());
+            new Timestamp(System.currentTimeMillis());
         }
     };
 
