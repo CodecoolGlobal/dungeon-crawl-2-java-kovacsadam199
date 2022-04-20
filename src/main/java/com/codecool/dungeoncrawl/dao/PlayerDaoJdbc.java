@@ -17,12 +17,13 @@ public class PlayerDaoJdbc implements PlayerDao {
     @Override
     public void add(PlayerModel player) {
         try (Connection conn = dataSource.getConnection()) {
-            String sql = "INSERT INTO player (player_name, hp, x, y) VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO player (player_name, hp, x, y, inventory) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement statement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, player.getPlayerName());
             statement.setInt(2, player.getHp());
             statement.setInt(3, player.getX());
             statement.setInt(4, player.getY());
+            statement.setString(5, player.getInventory());
             statement.executeUpdate();
             ResultSet resultSet = statement.getGeneratedKeys();
             resultSet.next();
@@ -35,13 +36,14 @@ public class PlayerDaoJdbc implements PlayerDao {
     @Override
     public void update(PlayerModel player) {
         try (Connection conn = dataSource.getConnection()) {
-            String sql = "UPDATE player SET player_name=?, hp=?, x=?, y=? WHERE id = ?";
+            String sql = "UPDATE player SET player_name=?, hp=?, x=?, y=?, inventory=? WHERE id = ?";
             PreparedStatement statement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setInt(5,player.getId());
             statement.setString(1,player.getPlayerName());
             statement.setInt(2,player.getHp());
             statement.setInt(3,player.getX());
             statement.setInt(4,player.getY());
+            statement.setString(6, player.getInventory());
             statement.execute();
         } catch (SQLException e) {
             throw new RuntimeException("Error while reading all authors", e);
@@ -54,13 +56,14 @@ public class PlayerDaoJdbc implements PlayerDao {
     @Override
     public PlayerModel get(int id) {
         try (Connection conn = dataSource.getConnection()) {
-            String sql = "SELECT id, player_name, hp, x, y FROM player WHERE id = ?";
+            String sql = "SELECT id, player_name, hp, x, y, inventory FROM player WHERE id = ?";
             PreparedStatement statement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setInt(1,id);
             statement.execute();
             ResultSet rs = statement.getGeneratedKeys();
             rs.next();
                 PlayerModel player = new PlayerModel(rs.getString(2), rs.getInt(4), rs.getInt(5));
+                player.setInventory(rs.getString(6));
                 player.setHp(rs.getInt(3));
                 player.setId(rs.getInt(1));
             return player;
@@ -72,11 +75,12 @@ public class PlayerDaoJdbc implements PlayerDao {
     @Override
     public List<PlayerModel> getAll() {
         try (Connection conn = dataSource.getConnection()) {
-            String sql = "SELECT id, player_name, hp, x, y FROM player";
+            String sql = "SELECT id, player_name, hp, x, y, inventory FROM player";
             ResultSet rs = conn.createStatement().executeQuery(sql);
             List<PlayerModel> result = new ArrayList<>();
             while (rs.next()) {
                 PlayerModel player = new PlayerModel(rs.getString(2), rs.getInt(4),rs.getInt(5));
+                player.setInventory(rs.getString(6));
                 player.setHp(rs.getInt(3));
                 player.setId(rs.getInt(1));
                 result.add(player);
