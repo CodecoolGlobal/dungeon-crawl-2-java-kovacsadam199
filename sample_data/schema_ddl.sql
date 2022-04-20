@@ -12,8 +12,48 @@ CREATE TABLE public.player (
     player_name text NOT NULL,
     hp integer NOT NULL,
     x integer NOT NULL,
-    y integer NOT NULL
+    y integer NOT NULL,
+    inventory text
+);
+
+DROP TABLE IF EXISTS public.monsters;
+CREATE TABLE public.monsters (
+   id serial NOT NULL PRIMARY KEY,
+   tile_name text NOT NULL,
+   hp integer NOT NULL,
+   x integer NOT NULL,
+   y integer NOT NULL,
+   game_state_id integer NOT NULL
+);
+
+DROP TABLE IF EXISTS public.elements;
+CREATE TABLE public.elements (
+     id serial NOT NULL PRIMARY KEY,
+     tile_name text NOT NULL,
+     is_changed boolean NOT NULL,
+     x integer NOT NULL,
+     y integer NOT NULL,
+     game_state_id integer NOT NULL
+);
+
+DROP TABLE IF EXISTS public.items;
+CREATE TABLE public.items (
+     id serial NOT NULL PRIMARY KEY,
+     tile_name text NOT NULL,
+     is_picked boolean NOT NULL,
+     x integer NOT NULL,
+     y integer NOT NULL,
+     game_state_id integer NOT NULL
 );
 
 ALTER TABLE ONLY public.game_state
     ADD CONSTRAINT fk_player_id FOREIGN KEY (player_id) REFERENCES public.player(id);
+
+ALTER TABLE ONLY public.monsters
+    ADD CONSTRAINT fk_game_state_id FOREIGN KEY (game_state_id) REFERENCES public.game_state(id);
+
+ALTER TABLE ONLY public.elements
+    ADD CONSTRAINT fk_game_state_id FOREIGN KEY (game_state_id) REFERENCES public.game_state(id);
+
+ALTER TABLE ONLY public.items
+    ADD CONSTRAINT fk_game_state_id FOREIGN KEY (game_state_id) REFERENCES public.game_state(id);
