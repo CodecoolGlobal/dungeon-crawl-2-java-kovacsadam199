@@ -70,6 +70,20 @@ public class Main extends Application {
         }
     };
 
+    EventHandler close = new EventHandler() {
+        @Override
+        public void handle(Event event) {
+            dialog.close();
+        }
+    };
+
+    EventHandler save = new EventHandler() {
+        @Override
+        public void handle(Event event) {
+            //TODO: saveFunctionPlace;
+        }
+    };
+
     private void resetGame() {
         dialog.close();
         dialog = new Stage();
@@ -126,6 +140,8 @@ public class Main extends Application {
         pickupBtn.setOnAction(eventHandler);
         quitButton.setOnAction(quit);
         playAgainButton.setOnAction(playAgain);
+        cancelButton.setOnAction(close);
+        saveButton.setOnAction(save);
         refresh();
         scene.setOnKeyPressed(this::onKeyPressed);
 
@@ -147,8 +163,12 @@ public class Main extends Application {
             dialog.initOwner(primaryStage);
             VBox dialogVbox = new VBox(20);
             dialogVbox.setAlignment(Pos.CENTER);
-            dialogVbox.getChildren().add(new Text("Save as: "));
-            dialogVbox.getChildren().add(new TextField());
+            dialogVbox.getChildren().add(new Text("Save your game! "));
+
+            Label labelName = new Label("Name: ");
+            TextField textField = new TextField ();
+            dialogVbox.getChildren().addAll(new Label("Name: "), new TextField());
+
             dialogVbox.getChildren().add(saveButton);
             dialogVbox.getChildren().add(cancelButton);
             Scene dialogScene = new Scene(dialogVbox, 300, 200);
