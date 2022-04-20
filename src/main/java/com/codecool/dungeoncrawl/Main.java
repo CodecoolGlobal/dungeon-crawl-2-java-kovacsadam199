@@ -58,6 +58,7 @@ public class Main extends Application {
     final String LOST_GAME = "You died!";
     final String WON_GAME = "Congrats, you won!";
     String savedGameName ="";
+    TextField textField;
 
     EventHandler quit = new EventHandler() {
         @Override
@@ -83,6 +84,7 @@ public class Main extends Application {
     EventHandler save = new EventHandler() {
         @Override
         public void handle(Event event) {
+            savedGameName = textField.getText();
             dbManager.saveAll(map.getPlayer(), currentMap, savedGameName);
         }
     };
@@ -170,12 +172,12 @@ public class Main extends Application {
             dialogVbox.setAlignment(Pos.CENTER);
             dialogVbox.getChildren().add(new Text("Save your game! "));
 
-            TextField textField = new TextField();
+            textField = new TextField();
             dialogVbox.getChildren().addAll(new Label("Name: "), textField);
 
 
             dialogVbox.getChildren().add(saveButton);
-            savedGameName = String.valueOf(textField);
+            savedGameName = textField.getText();
             dialogVbox.getChildren().add(cancelButton);
             Scene dialogScene = new Scene(dialogVbox, 300, 200);
             dialogSave.setScene(dialogScene);
