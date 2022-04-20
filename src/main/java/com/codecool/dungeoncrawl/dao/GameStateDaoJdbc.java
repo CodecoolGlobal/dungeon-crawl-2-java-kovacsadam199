@@ -46,17 +46,25 @@ public class GameStateDaoJdbc implements GameStateDao {
         } catch (SQLException e) {
             throw new RuntimeException("Error while reading all authors", e);
         }
-
-
     }
 
     @Override
     public GameState get(int id) {
-        return null;
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "SELECT id, current_map , saved_at, player_id FROM game_state WHERE id = ?";
+            PreparedStatement statement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            statement.setInt(1,id);
+            statement.execute();
+            ResultSet rs = statement.getGeneratedKeys();
+            rs.next();
+            return new GameState(rs.getString(2), rs.getDate(3));  //TODO: set player to this state at upper level
+        } catch (SQLException e) {
+            throw new RuntimeException("Error while reading all authors", e);
+        }
     }
 
-    @Override
-    public List<GameState> getAll() {
-        return null;
-    }
+//    @Override
+//    public List<GameState> getAll() {
+//        return null;
+//    }
 }
