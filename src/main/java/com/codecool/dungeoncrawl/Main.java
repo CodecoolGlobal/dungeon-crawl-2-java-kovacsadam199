@@ -34,6 +34,7 @@ import java.util.LinkedList;
 
 public class Main extends Application {
 
+    String currentMap = "/emptyMap1.text"; // for saving and loading
     GameMap map = MapLoader.loadMap("/map.txt");
     final int CANVAS_WIDTH = 20;
     final int CANVAS_HEIGHT = 20;
@@ -104,6 +105,7 @@ public class Main extends Application {
         this.primaryStage = primaryStage;
         Player player = map.getPlayer();
         if (player.goToNextLevel()){
+            currentMap = "/emptyMap2.txt"; // for saving
             map = MapLoader.loadMap("/map2.txt");
         }
 
