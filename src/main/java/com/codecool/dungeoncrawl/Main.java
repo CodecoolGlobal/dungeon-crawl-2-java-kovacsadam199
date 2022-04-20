@@ -192,8 +192,8 @@ public class Main extends Application {
         }
         switch (keyEvent.getCode()) {
             case UP:
-                PlayerModel p = new PlayerModel(map.getPlayer());
-                System.out.println(p.getInventory());
+                //PlayerModel p = new PlayerModel(map.getPlayer());
+                //System.out.println(p.getInventory());
                 usedItem = map.getPlayer().move(0, -1);
                 refresh();
                 break;

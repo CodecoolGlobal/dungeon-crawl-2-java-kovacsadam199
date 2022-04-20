@@ -19,7 +19,8 @@ public class PlayerModel extends BaseModel {
         this.y = y;
     }
 
-    public PlayerModel(Player player) {
+    public PlayerModel(Player player, String savedGameName) {
+        this.playerName = savedGameName;
         this.x = player.getX();
         this.y = player.getY();
 

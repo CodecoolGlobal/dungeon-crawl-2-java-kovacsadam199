@@ -31,8 +31,8 @@ public class GameDatabaseManager {
         gameStateDao.add(gameState);
     }
 
-    public void saveAll(Player player, String currentMap){
-        PlayerModel model = new PlayerModel(player);
+    public void saveAll(Player player, String currentMap, String savedGameName){
+        PlayerModel model = new PlayerModel(player, savedGameName);
         savePlayer(model);
         saveGameState(model, currentMap);
     }
