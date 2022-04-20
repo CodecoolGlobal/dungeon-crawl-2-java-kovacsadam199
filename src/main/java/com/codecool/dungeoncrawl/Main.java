@@ -43,7 +43,7 @@ public class Main extends Application {
             CANVAS_HEIGHT * Tiles.TILE_WIDTH);
     GraphicsContext context = canvas.getGraphicsContext2D();
     Label healthLabel = new Label();
-    GameDatabaseManager dbManager;
+    GameDatabaseManager dbManager = new GameDatabaseManager();
     Button pickupBtn = new Button();
     final Button quitButton = new Button("Quit");
     final Button playAgainButton = new Button("Play again");
@@ -54,8 +54,10 @@ public class Main extends Application {
     BorderPane borderPane = new BorderPane();
     int rowCounter = 5;
     Stage dialog = new Stage();
+    Stage dialogSave = new Stage();
     final String LOST_GAME = "You died!";
     final String WON_GAME = "Congrats, you won!";
+    String savedGameName ="";
 
     EventHandler quit = new EventHandler() {
         @Override
@@ -81,7 +83,7 @@ public class Main extends Application {
     EventHandler save = new EventHandler() {
         @Override
         public void handle(Event event) {
-            //TODO: saveFunctionPlace;
+            dbManager.saveAll(map.getPlayer(), currentMap, savedGameName);
         }
     };
 
@@ -101,7 +103,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-//        setupDbManager();  // TODO: implement
         this.primaryStage = primaryStage;
         Player player = map.getPlayer();
         if (player.goToNextLevel()){
@@ -131,6 +132,8 @@ public class Main extends Application {
         Text inv = new Text("Inventory: ");
         ui.addRow(4, inv);
         ui.addRow(5, new Label("Empty"));
+
+        dbManager.setup();
         EventHandler eventHandler = new EventHandler() {
             @Override
             public void handle(Event event) {
@@ -153,29 +156,30 @@ public class Main extends Application {
         KeyCombination exitCombinationMac = new KeyCodeCombination(KeyCode.W, KeyCombination.SHORTCUT_DOWN);
         KeyCombination exitCombinationWin = new KeyCodeCombination(KeyCode.F4, KeyCombination.ALT_DOWN);
 
-        KeyCombination saveCombinationLin = new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_ANY);
+        KeyCombination saveCombination = new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_ANY);
         if (exitCombinationMac.match(keyEvent)
                 || exitCombinationWin.match(keyEvent)
                 || keyEvent.getCode() == KeyCode.ESCAPE) {
             System.exit(0);
         }
 
-        if (saveCombinationLin.match(keyEvent)){
-            dialog.initModality(Modality.APPLICATION_MODAL);
-            dialog.initOwner(primaryStage);
+        if (saveCombination.match(keyEvent)){
+            dialogSave.initModality(Modality.APPLICATION_MODAL);
+            dialogSave.initOwner(primaryStage);
             VBox dialogVbox = new VBox(20);
             dialogVbox.setAlignment(Pos.CENTER);
             dialogVbox.getChildren().add(new Text("Save your game! "));
 
-            Label labelName = new Label("Name: ");
-            TextField textField = new TextField ();
-            dialogVbox.getChildren().addAll(new Label("Name: "), new TextField());
+            TextField textField = new TextField();
+            dialogVbox.getChildren().addAll(new Label("Name: "), textField);
+
 
             dialogVbox.getChildren().add(saveButton);
+            savedGameName = String.valueOf(textField);
             dialogVbox.getChildren().add(cancelButton);
             Scene dialogScene = new Scene(dialogVbox, 300, 200);
-            dialog.setScene(dialogScene);
-            dialog.show();
+            dialogSave.setScene(dialogScene);
+            dialogSave.show();
         }
     }
 
