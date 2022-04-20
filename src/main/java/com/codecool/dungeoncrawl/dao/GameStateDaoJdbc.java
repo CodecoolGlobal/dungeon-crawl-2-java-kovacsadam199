@@ -35,6 +35,18 @@ public class GameStateDaoJdbc implements GameStateDao {
 
     @Override
     public void update(GameState state) {
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "UPDATE game_state SET current_map=?, saved_at=?, player_id=? WHERE id = ?";
+            PreparedStatement statement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            statement.setInt(4,state.getId());
+            statement.setString(1,state.getCurrentMap());
+            statement.setDate(2,state.getSavedAt());
+            statement.setInt(3,state.getPlayer().getId());
+            statement.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException("Error while reading all authors", e);
+        }
+
 
     }
 
