@@ -91,6 +91,8 @@ public class Player extends Actor {
     }
 
     private boolean isNeighbourEnemy(Cell nextCell) {
+
+
         return (nextCell.getActor() != null && nextCell.getActor().getTileName() == "skeleton") || (nextCell.getActor() != null && nextCell.getActor().getTileName() == "scorpion")|| (nextCell.getActor() != null && nextCell.getActor().getTileName() == "bee")|| (nextCell.getActor() != null && nextCell.getActor().getTileName() == "warrior");
     }
 
