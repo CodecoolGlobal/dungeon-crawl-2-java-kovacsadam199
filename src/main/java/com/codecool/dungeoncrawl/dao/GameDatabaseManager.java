@@ -90,4 +90,8 @@ public class GameDatabaseManager {
         return playerDao.getSaveNames();
     }
 
+    public PlayerModel getSelectedPlayer(String selectedPlayer){
+        return playerDao.get(selectedPlayer);
+    }
+
 }

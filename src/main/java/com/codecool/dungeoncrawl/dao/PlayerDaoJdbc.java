@@ -54,16 +54,16 @@ public class PlayerDaoJdbc implements PlayerDao {
     }
 
     @Override
-    public PlayerModel get(int id) {
+    public PlayerModel get(String player_name) {
         try (Connection conn = dataSource.getConnection()) {
-            String sql = "SELECT id, player_name, hp, x, y, inventory FROM player WHERE id = ?";
+            String sql = "SELECT id, player_name, hp, x, y, inventory FROM player WHERE player_name = ?";
             PreparedStatement statement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            statement.setInt(1,id);
-            statement.execute();
-            ResultSet rs = statement.getGeneratedKeys();
+            statement.setString(1,player_name);
+
+            ResultSet rs = statement.executeQuery();
             rs.next();
-                PlayerModel player = new PlayerModel(rs.getString(2), rs.getInt(4), rs.getInt(5));
-                player.setInventory(rs.getString(6));
+            PlayerModel player = new PlayerModel(rs.getString(2), rs.getInt(4),rs.getInt(5));
+                player.setInventory(rs.getString(5));
                 player.setHp(rs.getInt(3));
                 player.setId(rs.getInt(1));
             return player;

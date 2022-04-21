@@ -67,6 +67,7 @@ public class Main extends Application {
     final String WON_GAME = "Congrats, you won!";
     String savedGameName = "";
     TextField textField;
+    ComboBox combobox;
 
     EventHandler quit = new EventHandler() {
         @Override
@@ -109,7 +110,7 @@ public class Main extends Application {
             VBox dialogVbox = new VBox(20);
             dialogVbox.setAlignment(Pos.CENTER);
             dialogVbox.getChildren().add(new Text("Choose a previous game state: "));
-            ComboBox combobox = new ComboBox<String>(FXCollections.observableArrayList(dbManager.getLoadNames()));
+            combobox = new ComboBox<String>(FXCollections.observableArrayList(dbManager.getLoadNames()));
             combobox.getSelectionModel().select(0);
             combobox.setId("changed");
             dialogVbox.getChildren().add(combobox);
@@ -126,6 +127,8 @@ public class Main extends Application {
         public void handle(Event event) {
 
             map = MapLoader.loadMap("/emptyMap1.txt");
+            dbManager.getSelectedPlayer((String) combobox.getValue());
+            System.out.println( dbManager.getSelectedPlayer((String) combobox.getValue()));
             refresh();
             dialogLoad.close();
         }
