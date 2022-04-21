@@ -2,6 +2,7 @@ package com.codecool.dungeoncrawl.logic.items;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.Drawable;
+import com.codecool.dungeoncrawl.logic.actors.Player;
 
 public abstract class Item implements Drawable {
     private Cell cell;
@@ -23,7 +24,7 @@ public abstract class Item implements Drawable {
     }
 
     public int getX() {
-        return x;
+        return cell.getX();
     }
 
     public void setX(int x) {
@@ -31,7 +32,7 @@ public abstract class Item implements Drawable {
     }
 
     public int getY() {
-        return y;
+        return cell.getY();
     }
 
     public void setY(int y) {
