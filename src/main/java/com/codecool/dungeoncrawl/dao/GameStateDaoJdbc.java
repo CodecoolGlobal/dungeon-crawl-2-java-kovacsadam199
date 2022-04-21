@@ -49,11 +49,11 @@ public class GameStateDaoJdbc implements GameStateDao {
     }
 
     @Override
-    public GameState get(int id) {
+    public GameState get(int playerId) {
         try (Connection conn = dataSource.getConnection()) {
-            String sql = "SELECT id, current_map , saved_at, player_id FROM game_state WHERE id = ?";
+            String sql = "SELECT id, current_map , saved_at, player_id FROM game_state WHERE player_id = ?";
             PreparedStatement statement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            statement.setInt(1,id);
+            statement.setInt(1,playerId);
             statement.execute();
             ResultSet rs = statement.getGeneratedKeys();
             rs.next();
