@@ -52,6 +52,10 @@ public class Player extends Actor {
         pickUpSpecificItem(currentCell);
         return printInventory();
     }
+    public  void  setInventory(List<String> inventory){
+        this.inventory= inventory;
+
+    }
 
     public void pickUpSpecificItem(CellType currentCell) {
         String prepareInventory = currentCell.toString().toLowerCase(Locale.ROOT);

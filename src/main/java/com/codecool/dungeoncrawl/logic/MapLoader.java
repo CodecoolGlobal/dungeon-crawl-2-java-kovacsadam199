@@ -3,11 +3,20 @@ package com.codecool.dungeoncrawl.logic;
 import com.codecool.dungeoncrawl.logic.actors.*;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.actors.Skeleton;
+import com.codecool.dungeoncrawl.logic.items.Item;
+import com.codecool.dungeoncrawl.logic.items.Key;
+import com.codecool.dungeoncrawl.logic.items.Sword;
+import com.codecool.dungeoncrawl.model.ItemModel;
+import com.codecool.dungeoncrawl.model.MonsterModel;
+import com.codecool.dungeoncrawl.model.PlayerModel;
 import com.codecool.dungeoncrawl.logic.items.Axe;
 import com.codecool.dungeoncrawl.logic.items.Key;
 import com.codecool.dungeoncrawl.logic.items.Sword;
 
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class MapLoader {
@@ -190,5 +199,86 @@ public class MapLoader {
         }
         return map;
     }
+
+    public static void putContentOnMap(GameMap map ,PlayerModel playerModel, List<MonsterModel> monsters, List<ItemModel> itemModels){
+        createActors(playerModel, monsters, map);
+        createItems(itemModels, map);
+
+
+    }
+
+    public static void createActors(PlayerModel playerModel, List<MonsterModel> monsters, GameMap map){
+        createPlayer(playerModel, map);
+        createMonsters(monsters, map);
+    }
+
+    private static void createMonsters(List<MonsterModel> monsters, GameMap map) {
+        for (MonsterModel monster: monsters
+             ) {
+            String name = monster.getTileName();
+            switch (name){
+                case "skeleton":
+                    Skeleton skeleton = new Skeleton(map.getCell(monster.getX(), monster.getY()));
+                    map.getCell(monster.getX(), monster.getY()).setActor(skeleton);
+                    map.addMonster(skeleton);
+                    break;
+                case "warrior":
+                    Warrior warrior = new Warrior(map.getCell(monster.getX(), monster.getY()));
+                    map.getCell(warrior.getX(), warrior.getY()).setActor(warrior);
+                    break;
+                case "scorpion":
+                    Scorpion scorpion = new Scorpion(map.getCell(monster.getX(), monster.getY()));
+                    map.getCell(scorpion.getX(), scorpion.getY()).setActor(scorpion);
+                    map.addMonster(scorpion);
+                    break;
+                case "bee":
+                    Bee bee = new Bee(map.getCell(monster.getX(), monster.getY()));
+                    map.getCell(bee.getX(), bee.getY()).setActor(bee);
+                    break;
+            }
+        }
+    }
+
+    private static void createPlayer(PlayerModel playerModel, GameMap map) {
+        Player player = new Player(map.getCell(playerModel.getX(), playerModel.getY()));
+        player.setInventory(Arrays.asList(playerModel.getInventory().split(",")));
+        map.setPlayer(player);
+        map.getCell(player.getX(),player.getY()).setActor(player);
+        player.setCell(map.getCell(player.getX(), player.getY()));
+    }
+
+    public static void createItems(List<ItemModel> itemModels,GameMap map){
+        for (ItemModel item: itemModels) {
+            String name = item.getTileName();
+            switch (name){
+                case "key":
+                    Key key = new Key(map.getCell(item.getX(), item.getY()));
+                    map.getCell(key.getX(), key.getY()).setItem(key);
+                    map.addItem(key);
+                    break;
+                case "sword":
+                    Sword sword = new Sword(map.getCell(item.getX(), item.getY()));
+                    map.getCell(sword.getX(), sword.getY()).setItem(sword);
+                    map.addItem(sword);
+
+                    break;
+                case "axe":
+                    Axe axe = new Axe(map.getCell(item.getX(), item.getY()));
+                    map.getCell(axe.getX(), axe.getY()).setItem(axe);
+                    map.addItem(axe);
+                    break;
+            }
+
+        }
+//        new Item(cell)
+
+
+
+
+
+
+
+    }
+
 
 }

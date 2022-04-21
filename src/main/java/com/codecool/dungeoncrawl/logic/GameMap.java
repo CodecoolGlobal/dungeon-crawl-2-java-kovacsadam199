@@ -1,10 +1,15 @@
 package com.codecool.dungeoncrawl.logic;
 
+import com.codecool.dungeoncrawl.logic.actors.Actor;
 import com.codecool.dungeoncrawl.logic.actors.MovingMonsters;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.items.Item;
+import com.codecool.dungeoncrawl.logic.actors.Skeleton;
+import com.codecool.dungeoncrawl.logic.items.Item;
 
+import java.awt.*;
 import java.util.LinkedList;
+import java.util.List;
 
 public class GameMap {
     private int width;
@@ -60,4 +65,5 @@ public class GameMap {
     public int getHeight() {
         return height;
     }
+
 }
