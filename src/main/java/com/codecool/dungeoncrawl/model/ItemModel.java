@@ -1,16 +1,14 @@
 package com.codecool.dungeoncrawl.model;
 
 
-import java.util.List;
-
 public class ItemModel extends BaseModel {
     private String tileName;
     private int x;
     private int y;
     private boolean isPicked;
-    private GameState gameState;
+    private int gameState;
 
-    public ItemModel(String tileName, int x, int y, boolean isPicked, GameState gameState) {
+    public ItemModel(String tileName, int x, int y, boolean isPicked, int gameState) {
         this.tileName = tileName;
         this.x = x;
         this.y = y;
@@ -55,11 +53,11 @@ public class ItemModel extends BaseModel {
         return isPicked;
     }
 
-    public GameState getState() {
+    public int getState() {
         return gameState;
     }
 
-    public void setState(GameState state) {
+    public void setState(int state) {
         this.gameState = state;
     }
 }

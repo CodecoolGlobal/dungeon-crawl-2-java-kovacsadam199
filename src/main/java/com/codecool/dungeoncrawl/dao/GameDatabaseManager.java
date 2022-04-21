@@ -40,7 +40,7 @@ public class GameDatabaseManager {
 
     public void saveItems(LinkedList<Item> itemsListLinkedList, GameState gameState) {
         for (Item item : itemsListLinkedList) {
-            ItemModel itemModel = new ItemModel(item.getTileName(), item.getX(), item.getY(), item.getPicked(), gameState);
+            ItemModel itemModel = new ItemModel(item.getTileName(), item.getX(), item.getY(), item.getPicked(), gameState.getId());
             ItemDao.add(itemModel);
         }
     }
