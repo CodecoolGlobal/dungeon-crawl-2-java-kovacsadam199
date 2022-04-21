@@ -26,7 +26,10 @@ public class PlayerModel extends BaseModel {
 
         this.hp = player.getHealth();
         this.inventory = player.getInventory();
+    }
 
+    public PlayerModel(String savedGameName){
+        this.playerName = savedGameName;
     }
 
     public String getPlayerName() {

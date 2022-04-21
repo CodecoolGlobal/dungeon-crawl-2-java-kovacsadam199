@@ -1,6 +1,7 @@
 package com.codecool.dungeoncrawl;
 
 import com.codecool.dungeoncrawl.dao.GameDatabaseManager;
+import com.codecool.dungeoncrawl.dao.PlayerDaoJdbc;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
@@ -9,6 +10,7 @@ import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.model.GameState;
 import com.codecool.dungeoncrawl.model.PlayerModel;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -16,20 +18,21 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.LinkedList;
@@ -51,15 +54,18 @@ public class Main extends Application {
     final Button playAgainButton = new Button("Play again");
     final Button saveButton = new Button("Save");
     final Button cancelButton = new Button("Cancel");
+    final Button loadButton = new Button("Load");
+    final Button selectButton = new Button("Select");
     Stage primaryStage;
     GridPane ui = new GridPane();
     BorderPane borderPane = new BorderPane();
     int rowCounter = 5;
     Stage dialog = new Stage();
     Stage dialogSave = new Stage();
+    Stage dialogLoad = new Stage();
     final String LOST_GAME = "You died!";
     final String WON_GAME = "Congrats, you won!";
-    String savedGameName ="";
+    String savedGameName = "";
     TextField textField;
 
     EventHandler quit = new EventHandler() {
@@ -87,9 +93,41 @@ public class Main extends Application {
         @Override
         public void handle(Event event) {
             savedGameName = textField.getText();
-            dbManager.saveAll(map.getPlayer(), currentMap, savedGameName, map.getMovingMonsters(),  map.getItems());
+            dbManager.saveAll(map.getPlayer(), currentMap, savedGameName, map.getMovingMonsters(), map.getItems());
             new Timestamp(System.currentTimeMillis());
             System.exit(0);
+        }
+    };
+
+
+    EventHandler load = new EventHandler() {
+        @Override
+        public void handle(Event event) {
+
+            dialogLoad.initModality(Modality.APPLICATION_MODAL);
+            dialogLoad.initOwner(primaryStage);
+            VBox dialogVbox = new VBox(20);
+            dialogVbox.setAlignment(Pos.CENTER);
+            dialogVbox.getChildren().add(new Text("Choose a previous game state: "));
+            ComboBox combobox = new ComboBox<String>(FXCollections.observableArrayList(dbManager.getLoadNames()));
+            combobox.getSelectionModel().select(0);
+            combobox.setId("changed");
+            dialogVbox.getChildren().add(combobox);
+            dialogVbox.getChildren().add(selectButton);
+            dialogVbox.getChildren().add(cancelButton);
+            Scene dialogScene = new Scene(dialogVbox, 300, 200);
+            dialogLoad.setScene(dialogScene);
+            dialogLoad.show();
+        }
+    };
+
+    EventHandler select = new EventHandler() {
+        @Override
+        public void handle(Event event) {
+
+            map = MapLoader.loadMap("/emptyMap1.txt");
+            refresh();
+            dialogLoad.close();
         }
     };
 
@@ -131,22 +169,28 @@ public class Main extends Application {
 
         primaryStage.setTitle("Dungeon Crawl");
         primaryStage.show();
-        ui.addRow(3,pickupBtn);
+        ui.addRow(3, loadButton);
+        ui.addRow(4,pickupBtn);
+
         pickupBtn.setText("Pick up!");
         pickupBtn.setFocusTraversable(false);
 
         Text inv = new Text("Inventory: ");
-        ui.addRow(4, inv);
-        ui.addRow(5, new Label("Empty"));
+        ui.addRow(5, inv);
+        ui.addRow(6, new Label("Empty"));
+        loadButton.setOnAction(load);
+        selectButton.setOnAction(select);
 
         dbManager.setup();
         EventHandler eventHandler = new EventHandler() {
             @Override
             public void handle(Event event) {
-                ui.getChildren().remove(4);
+                ui.getChildren().remove(5);
                 ui.addRow(rowCounter + 1, new Text(player.pickUp()));
             }
         };
+
+        loadButton.setFocusTraversable(false);
 
         pickupBtn.setOnAction(eventHandler);
         quitButton.setOnAction(quit);

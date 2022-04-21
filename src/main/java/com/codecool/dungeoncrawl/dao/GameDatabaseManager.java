@@ -18,6 +18,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.LinkedList;
+import java.util.List;
 
 
 public class GameDatabaseManager {
@@ -84,4 +85,9 @@ public class GameDatabaseManager {
 
         return dataSource;
     }
+
+    public List<String> getLoadNames(){
+        return playerDao.getSaveNames();
+    }
+
 }

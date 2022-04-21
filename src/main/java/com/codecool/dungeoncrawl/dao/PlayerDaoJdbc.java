@@ -90,4 +90,20 @@ public class PlayerDaoJdbc implements PlayerDao {
             throw new RuntimeException("Error while reading all authors", e);
         }
     }
+
+    @Override
+    public List<String> getSaveNames(){
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "SELECT player_name FROM player";
+            ResultSet rs = conn.createStatement().executeQuery(sql);
+            List<String> result = new ArrayList<>();
+            while (rs.next()) {
+                PlayerModel player = new PlayerModel(rs.getString(1));
+                result.add(player.getPlayerName());
+            }
+            return result;
+        } catch (SQLException e) {
+            throw new RuntimeException("Error while reading all authors", e);
+        }
+    }
 }
