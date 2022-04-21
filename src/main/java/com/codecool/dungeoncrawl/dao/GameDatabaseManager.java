@@ -10,6 +10,8 @@ import org.postgresql.ds.PGSimpleDataSource;
 import javax.sql.DataSource;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.LinkedList;
 
@@ -33,18 +35,20 @@ public class GameDatabaseManager {
     public void saveItems(LinkedList<Item> itemsListLinkedList, GameState gameState) {
         for (Item item : itemsListLinkedList) {
             ItemModel itemModel = new ItemModel(item.getTileName(), item.getX(), item.getY(), item.getPicked(), gameState);
-            ItemDao.add(itemModel, gameState);
+            ItemDao.add(itemModel);
         }
     }
 
     public void saveGameState(PlayerModel model, String currentMap) {
-        Date currentDate = new Date(Calendar.getInstance().getTimeInMillis());
+        Timestamp currentDate = new Timestamp(Calendar.getInstance().getTimeInMillis());
         GameState gameState = new GameState(currentMap, currentDate, model);
         gameStateDao.add(gameState);
     }
 
-    public void saveAll(Player player, String currentMap, String savedGameName, LinkedList<Item> itemLinkedList, GameState gameState){
+    public void saveAll(Player player, String currentMap, String savedGameName, LinkedList<Item> itemLinkedList){
+        Timestamp currentDate = new Timestamp(System.currentTimeMillis());
         PlayerModel model = new PlayerModel(player, savedGameName);
+        GameState gameState = new GameState(currentMap, currentDate, model);
         savePlayer(model);
         saveItems(itemLinkedList, gameState);
         saveGameState(model, currentMap);

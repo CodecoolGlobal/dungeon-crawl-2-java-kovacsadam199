@@ -37,6 +37,10 @@ public class GameMap {
         movingMonsters.add((MovingMonsters) monster);
     }
 
+    public void addItem(Item item){
+        items.add(item);
+    }
+
     public Player getPlayer() {
         return player;
     }

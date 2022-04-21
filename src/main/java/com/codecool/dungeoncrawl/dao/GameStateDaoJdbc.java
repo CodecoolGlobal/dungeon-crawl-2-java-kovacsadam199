@@ -57,7 +57,7 @@ public class GameStateDaoJdbc implements GameStateDao {
             statement.execute();
             ResultSet rs = statement.getGeneratedKeys();
             rs.next();
-            return new GameState(rs.getString(2), rs.getDate(3));  //TODO: set player to this state at upper level
+            return new GameState(rs.getString(2), rs.getTimestamp(3));  //TODO: set player to this state at upper level
         } catch (SQLException e) {
             throw new RuntimeException("Error while reading all authors", e);
         }
