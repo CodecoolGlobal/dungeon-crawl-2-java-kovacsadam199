@@ -1,6 +1,5 @@
 package com.codecool.dungeoncrawl.dao;
 
-import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.actors.MovingMonsters;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.items.Item;
@@ -11,19 +10,15 @@ import com.codecool.dungeoncrawl.model.PlayerModel;
 import org.postgresql.ds.PGSimpleDataSource;
 
 import javax.sql.DataSource;
-import java.sql.Date;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 
 
 public class GameDatabaseManager {
     private PlayerDao playerDao;
-    private ItemDao ItemDao;
+    private ItemDao itemDao;
     private GameStateDao gameStateDao;
     private MonsterStateDao monsterStateDao;
 
@@ -32,7 +27,7 @@ public class GameDatabaseManager {
         playerDao = new PlayerDaoJdbc(dataSource);
         gameStateDao = new GameStateDaoJdbc(dataSource);
         monsterStateDao = new MonsterStateDaoJdbc(dataSource);
-        ItemDao = new ItemDaoJdbc(dataSource);
+        itemDao = new ItemDaoJdbc(dataSource);
     }
 
     public void savePlayer(PlayerModel model) {
@@ -42,7 +37,7 @@ public class GameDatabaseManager {
     public void saveItems(LinkedList<Item> itemsListLinkedList, GameState gameState) {
         for (Item item : itemsListLinkedList) {
             ItemModel itemModel = new ItemModel(item.getTileName(), item.getX(), item.getY(), item.getPicked(), gameState.getId());
-            ItemDao.add(itemModel);
+            itemDao.add(itemModel);
         }
     }
 
@@ -94,4 +89,15 @@ public class GameDatabaseManager {
         return playerDao.get(selectedPlayer);
     }
 
+    public  List<MonsterModel> getMonsters(int gameStateId){
+        return monsterStateDao.getAll(gameStateId);
+    }
+
+    public GameState getGameState(int playerId) {
+       return gameStateDao.get(playerId);
+    }
+
+    public List<ItemModel> getItems(int gameStateId) {
+        return itemDao.getAll(gameStateId);
+    }
 }

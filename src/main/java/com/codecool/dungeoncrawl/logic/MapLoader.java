@@ -155,9 +155,15 @@ public class MapLoader {
                             break;
                         case '/':
                             cell.setType(CellType.SWORD);
+                            Sword sword = new Sword(cell);
+                            map.addItem(sword);
+                            cell.setItem(sword);
                             break;
                         case '~':
                             cell.setType(CellType.KEY);
+                            Key key = new Key(cell);
+                            map.addItem(key);
+                            cell.setItem(key);
                             break;
                         case 'w':
                             cell.setType(CellType.FLOOR);
@@ -187,6 +193,9 @@ public class MapLoader {
                             break;
                         case 'a':
                             cell.setType(CellType.AXE);
+                            Axe axe = new Axe(cell);
+                            map.addItem(axe);
+                            cell.setItem(axe);
                             break;
                         case 'S':
                             cell.setType(CellType.STAIRS);

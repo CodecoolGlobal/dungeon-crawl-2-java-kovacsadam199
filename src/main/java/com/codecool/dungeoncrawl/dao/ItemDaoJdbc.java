@@ -74,13 +74,15 @@ public class ItemDaoJdbc implements ItemDao {
     }
 
     @Override
-    public List<ItemModel> getAll() {
+    public List<ItemModel> getAll(int gameStateId) {
         try (Connection conn = dataSource.getConnection()) {
-            String sql = "SELECT id, tile_name, is_picked, x, y, inventory FROM items";
-            ResultSet rs = conn.createStatement().executeQuery(sql);
+            String sql = "SELECT id, tile_name, is_picked, x, y FROM items WHERE game_state_id = ?";
+            PreparedStatement statement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            statement.setInt(1, gameStateId);
+            ResultSet rs = statement.executeQuery();
             List<ItemModel> result = new ArrayList<>();
             while (rs.next()) {
-                ItemModel itemModel = new ItemModel(rs.getString(2), rs.getInt(4), rs.getInt(5), rs.getBoolean(3), rs.getInt(6));
+                ItemModel itemModel = new ItemModel(rs.getString(2), rs.getInt(4), rs.getInt(5), rs.getBoolean(3),gameStateId);
                 itemModel.setPicked(rs.getBoolean(3));
                 itemModel.setTileName(rs.getString(2));
                 itemModel.setId(rs.getInt(1));

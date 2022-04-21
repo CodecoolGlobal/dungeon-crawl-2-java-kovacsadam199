@@ -36,10 +36,11 @@ import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.LinkedList;
+import java.util.Map;
 
 public class Main extends Application {
 
-    String currentMap = "/emptyMap1.text"; // for saving and loading
+    String currentMap = "/emptyMap1.txt"; // for saving and loading
     GameMap map = MapLoader.loadMap("/map.txt");
     final int CANVAS_WIDTH = 20;
     final int CANVAS_HEIGHT = 20;
@@ -125,10 +126,10 @@ public class Main extends Application {
     EventHandler select = new EventHandler() {
         @Override
         public void handle(Event event) {
-
-            map = MapLoader.loadMap("/emptyMap1.txt");
-            dbManager.getSelectedPlayer((String) combobox.getValue());
-            System.out.println( dbManager.getSelectedPlayer((String) combobox.getValue()));
+            PlayerModel playerModel = dbManager.getSelectedPlayer((String) combobox.getValue());
+            GameState gameState = dbManager.getGameState(playerModel.getId());
+            map = MapLoader.loadMap(gameState.getCurrentMap());
+            MapLoader.putContentOnMap(map, playerModel, dbManager.getMonsters(gameState.getId()), dbManager.getItems(gameState.getId()));
             refresh();
             dialogLoad.close();
         }
@@ -307,6 +308,7 @@ public class Main extends Application {
     private void refresh() {
         Player player = map.getPlayer();
         if (player.goToNextLevel()){
+            currentMap = "/emptyMap2.txt"; // for saving
             map = MapLoader.loadMap("/map2.txt", player);
         }
         if (player.pickUpCorona()){

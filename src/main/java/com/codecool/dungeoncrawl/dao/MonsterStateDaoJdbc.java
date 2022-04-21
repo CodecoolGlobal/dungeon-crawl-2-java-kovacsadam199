@@ -54,10 +54,12 @@ public class MonsterStateDaoJdbc implements MonsterStateDao {
     }
 
     @Override
-    public List<MonsterModel> getAll() {
+    public List<MonsterModel> getAll(int gameStateId) {
         try (Connection conn = dataSource.getConnection()) {
-            String sql = "SELECT id, tile_name, hp, x, y, game_state_id FROM monsters";
-            ResultSet rs = conn.createStatement().executeQuery(sql);
+            String sql = "SELECT id, tile_name, hp, x, y, game_state_id FROM monsters WHERE game_state_id = ? and hp > 0";
+            PreparedStatement statement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            statement.setInt(1, gameStateId);
+            ResultSet rs = statement.executeQuery();
             List<MonsterModel> result = new ArrayList<>();
             while (rs.next()) {
                 MonsterModel monster = new MonsterModel(rs.getString(2), rs.getInt(3), rs.getInt(4),rs.getInt(5), rs.getInt(6));
