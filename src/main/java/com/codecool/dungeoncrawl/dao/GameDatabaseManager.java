@@ -51,7 +51,7 @@ public class GameDatabaseManager {
 
     public void saveMonsters(LinkedList<MovingMonsters> monstersList, GameState gameState) {
         for (MovingMonsters monster : monstersList) {
-            MonsterModel currentMonster = new MonsterModel(monster.getTileName(), monster.getHealth(), monster.getX(), monster.getY(), gameState);
+            MonsterModel currentMonster = new MonsterModel(monster.getTileName(), monster.getHealth(), monster.getX(), monster.getY(), gameState.getId());
             monsterStateDao.add(currentMonster, gameState);
         }
     }
