@@ -1,9 +1,12 @@
 package com.codecool.dungeoncrawl.dao;
 
+import com.codecool.dungeoncrawl.logic.GameMap;
+import com.codecool.dungeoncrawl.logic.actors.MovingMonsters;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.items.Item;
 import com.codecool.dungeoncrawl.model.GameState;
 import com.codecool.dungeoncrawl.model.ItemModel;
+import com.codecool.dungeoncrawl.model.MonsterModel;
 import com.codecool.dungeoncrawl.model.PlayerModel;
 import org.postgresql.ds.PGSimpleDataSource;
 
@@ -12,6 +15,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.LinkedList;
 
@@ -20,11 +24,13 @@ public class GameDatabaseManager {
     private PlayerDao playerDao;
     private ItemDao ItemDao;
     private GameStateDao gameStateDao;
+    private MonsterStateDao monsterStateDao;
 
     public void setup() throws SQLException {
         DataSource dataSource = connect();
         playerDao = new PlayerDaoJdbc(dataSource);
         gameStateDao = new GameStateDaoJdbc(dataSource);
+        monsterStateDao = new MonsterStateDaoJdbc(dataSource);
         ItemDao = new ItemDaoJdbc(dataSource);
     }
 
@@ -39,19 +45,26 @@ public class GameDatabaseManager {
         }
     }
 
-    public void saveGameState(PlayerModel model, String currentMap) {
-        Timestamp currentDate = new Timestamp(Calendar.getInstance().getTimeInMillis());
-        GameState gameState = new GameState(currentMap, currentDate, model);
+    public void saveGameState(GameState gameState) {
         gameStateDao.add(gameState);
     }
 
-    public void saveAll(Player player, String currentMap, String savedGameName, LinkedList<Item> itemLinkedList){
+    public void saveMonsters(LinkedList<MovingMonsters> monstersList, GameState gameState) {
+        for (MovingMonsters monster : monstersList) {
+            MonsterModel currentMonster = new MonsterModel(monster.getTileName(), monster.getHealth(), monster.getX(), monster.getY(), gameState);
+            monsterStateDao.add(currentMonster, gameState);
+        }
+    }
+
+    public void saveAll(Player player, String currentMap, String
+            savedGameName, LinkedList<MovingMonsters> monstersList, LinkedList<Item> itemsListLinkedList) {
         Timestamp currentDate = new Timestamp(System.currentTimeMillis());
         PlayerModel model = new PlayerModel(player, savedGameName);
         GameState gameState = new GameState(currentMap, currentDate, model);
         savePlayer(model);
-        saveItems(itemLinkedList, gameState);
-        saveGameState(model, currentMap);
+        saveGameState(gameState);
+        saveMonsters(monstersList, gameState);
+        saveItems(itemsListLinkedList, gameState);
     }
 
     private DataSource connect() throws SQLException {
