@@ -6,14 +6,14 @@ public class MonsterModel extends BaseModel{
     private int x;
     private int y;
 
-    private GameState state;
+    private int gameStateId;
 
-    public MonsterModel(String tileName, int hp, int x, int y, GameState state) {
+    public MonsterModel(String tileName, int hp, int x, int y, int gameStateId) {
         this.tileName = tileName;
         this.hp = hp;
         this.x = x;
         this.y = y;
-        this.state = state;
+        this.gameStateId = gameStateId;
     }
 
     public String getTileName() {
@@ -48,11 +48,11 @@ public class MonsterModel extends BaseModel{
         this.y = y;
     }
 
-    public GameState getState() {
-        return state;
+    public int getGameStateId() {
+        return gameStateId;
     }
 
-    public void setState(GameState state) {
-        this.state = state;
+    public void setGameStateId(int gameStateId) {
+        this.gameStateId = gameStateId;
     }
 }

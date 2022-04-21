@@ -6,8 +6,12 @@ import com.codecool.dungeoncrawl.logic.actors.Skeleton;
 import com.codecool.dungeoncrawl.logic.items.Item;
 import com.codecool.dungeoncrawl.logic.items.Key;
 import com.codecool.dungeoncrawl.logic.items.Sword;
+import com.codecool.dungeoncrawl.model.ItemModel;
 import com.codecool.dungeoncrawl.model.MonsterModel;
 import com.codecool.dungeoncrawl.model.PlayerModel;
+import com.codecool.dungeoncrawl.logic.items.Axe;
+import com.codecool.dungeoncrawl.logic.items.Key;
+import com.codecool.dungeoncrawl.logic.items.Sword;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -56,9 +60,15 @@ public class MapLoader {
                             break;
                         case '/':
                             cell.setType(CellType.SWORD);
+                            Sword sword = new Sword(cell);
+                            map.addItem(sword);
+                            cell.setItem(sword);
                             break;
                         case '~':
                             cell.setType(CellType.KEY);
+                            Key key = new Key(cell);
+                            map.addItem(key);
+                            cell.setItem(key);
                             break;
                         case 'w':
                             cell.setType(CellType.FLOOR);
@@ -88,6 +98,9 @@ public class MapLoader {
                             break;
                         case 'a':
                             cell.setType(CellType.AXE);
+                            Axe axe = new Axe(cell);
+                            map.addItem(axe);
+                            cell.setItem(axe);
                             break;
                         case 'S':
                             cell.setType(CellType.STAIRS);
@@ -189,7 +202,7 @@ public class MapLoader {
 
     public static void putContentOnMap(GameMap map ,PlayerModel playerModel, List<MonsterModel> monsters, List<ItemModel> itemModels){
         createActors(playerModel, monsters, map);
-        createItems(items, map);
+        createItems(itemModels, map);
 
 
     }
@@ -240,18 +253,18 @@ public class MapLoader {
             switch (name){
                 case "key":
                     Key key = new Key(map.getCell(item.getX(), item.getY()));
-                    map.getCell(key.getX(), key.getY()).setActor(key);
+                    map.getCell(key.getX(), key.getY()).setItem(key);
                     map.addItem(key);
                     break;
                 case "sword":
                     Sword sword = new Sword(map.getCell(item.getX(), item.getY()));
-                    map.getCell(sword.getX(), sword.getY()).setActor(sword);
+                    map.getCell(sword.getX(), sword.getY()).setItem(sword);
                     map.addItem(sword);
 
                     break;
                 case "axe":
                     Axe axe = new Axe(map.getCell(item.getX(), item.getY()));
-                    map.getCell(axe.getX(), axe.getY()).setActor(axe);
+                    map.getCell(axe.getX(), axe.getY()).setItem(axe);
                     map.addItem(axe);
                     break;
             }

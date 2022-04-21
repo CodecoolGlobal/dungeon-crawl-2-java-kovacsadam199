@@ -62,6 +62,7 @@ public class Player extends Actor {
         if (currentCell == CellType.SWORD || currentCell == CellType.KEY || currentCell == CellType.AXE
             || currentCell == CellType.CROWN) {
             this.getCell().setType(CellType.FLOOR);
+            this.getCell().getItem().setPicked(true);
             inventory.add(prepareInventory);
         }
     }
