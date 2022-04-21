@@ -1,7 +1,9 @@
 package com.codecool.dungeoncrawl.dao;
 
+import com.codecool.dungeoncrawl.logic.items.Item;
 import com.codecool.dungeoncrawl.model.ItemModel;
 import com.codecool.dungeoncrawl.model.PlayerModel;
+import com.codecool.dungeoncrawl.dao.GameStateDaoJdbc;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -25,7 +27,7 @@ public class ItemDaoJdbc implements ItemDao {
             statement.setBoolean(2, item.getPicked());
             statement.setInt(3, item.getX());
             statement.setInt(4, item.getY());
-            statement.setInt(5, item.getState().getId());
+            statement.setInt(5, item.getState());
             statement.executeUpdate();
             ResultSet resultSet = statement.getGeneratedKeys();
             resultSet.next();
@@ -37,87 +39,56 @@ public class ItemDaoJdbc implements ItemDao {
 
     @Override
     public void update(ItemModel item) {
-
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "UPDATE items SET tile_name=?, is_picked=?, x=?, y=?, game_state_id=? WHERE id = ?";
+            PreparedStatement statement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            statement.setInt(5,item.getId());
+            statement.setString(1, item.getTileName());
+            statement.setBoolean(2, item.getPicked());
+            statement.setInt(3, item.getX());
+            statement.setInt(4, item.getY());
+            statement.setInt(6, item.getState());
+            statement.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException("Error while reading all authors", e);
+        }
     }
 
     @Override
     public ItemModel get(int id) {
-        return null;
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "SELECT id, tile_name, is_picked, x, y, inventory FROM items WHERE game_state_id = ?";
+            PreparedStatement statement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            statement.setInt(1,id);
+            statement.execute();
+            ResultSet rs = statement.getGeneratedKeys();
+            rs.next();
+            ItemModel itemModel = new ItemModel(rs.getString(2), rs.getInt(4), rs.getInt(5), rs.getBoolean(3), rs.getInt(6));
+            itemModel.setPicked(rs.getBoolean(3));
+            itemModel.setTileName(rs.getString(2));
+            itemModel.setId(rs.getInt(1));
+            return itemModel;
+        } catch (SQLException e) {
+            throw new RuntimeException("Error while reading all authors", e);
+        }
     }
 
     @Override
     public List<ItemModel> getAll() {
-        return null;
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "SELECT id, tile_name, is_picked, x, y, inventory FROM items";
+            ResultSet rs = conn.createStatement().executeQuery(sql);
+            List<ItemModel> result = new ArrayList<>();
+            while (rs.next()) {
+                ItemModel itemModel = new ItemModel(rs.getString(2), rs.getInt(4), rs.getInt(5), rs.getBoolean(3), rs.getInt(6));
+                itemModel.setPicked(rs.getBoolean(3));
+                itemModel.setTileName(rs.getString(2));
+                itemModel.setId(rs.getInt(1));
+                result.add(itemModel);
+            }
+            return result;
+        } catch (SQLException e) {
+            throw new RuntimeException("Error while reading all authors", e);
+        }
     }
-
-//    @Override
-//    public void update(ItemModel item) {
-//        try (Connection conn = dataSource.getConnection()) {
-//            String sql = "UPDATE items SET tile_name=?, is_picked=?, x=?, y=?, game_state_id=? WHERE id = ?";
-//            PreparedStatement statement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-//            statement.setInt(5,item.getId());
-//            statement.setString(1,player.getPlayerName());
-//            statement.setInt(2,player.getHp());
-//            statement.setInt(3,player.getX());
-//            statement.setInt(4,player.getY());
-//            statement.setString(6, player.getInventory());
-//            statement.execute();
-//        } catch (SQLException e) {
-//            throw new RuntimeException("Error while reading all authors", e);
-//        }
-//    }
-//
-//    @Override
-//    public ItemModel get(int id) {
-//        return null;
-//    }
-//
-//    @Override
-//    public List<ItemModel> getAll() {
-//        return null;
-//    }
-//
-//
-//
-//
-//
-//        @Override
-//        public PlayerModel get(int id) {
-//            try (Connection conn = dataSource.getConnection()) {
-//                String sql = "SELECT id, player_name, hp, x, y, inventory FROM player WHERE id = ?";
-//                PreparedStatement statement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-//                statement.setInt(1,id);
-//                statement.execute();
-//                ResultSet rs = statement.getGeneratedKeys();
-//                rs.next();
-//                PlayerModel player = new PlayerModel(rs.getString(2), rs.getInt(4), rs.getInt(5));
-//                player.setInventory(rs.getString(6));
-//                player.setHp(rs.getInt(3));
-//                player.setId(rs.getInt(1));
-//                return player;
-//            } catch (SQLException e) {
-//                throw new RuntimeException("Error while reading all authors", e);
-//            }
-//        }
-//
-//        @Override
-//        public List<PlayerModel> getAll() {
-//            try (Connection conn = dataSource.getConnection()) {
-//                String sql = "SELECT id, player_name, hp, x, y, inventory FROM player";
-//                ResultSet rs = conn.createStatement().executeQuery(sql);
-//                List<PlayerModel> result = new ArrayList<>();
-//                while (rs.next()) {
-//                    PlayerModel player = new PlayerModel(rs.getString(2), rs.getInt(4),rs.getInt(5));
-//                    player.setInventory(rs.getString(6));
-//                    player.setHp(rs.getInt(3));
-//                    player.setId(rs.getInt(1));
-//                    result.add(player);
-//                }
-//                return result;
-//            } catch (SQLException e) {
-//                throw new RuntimeException("Error while reading all authors", e);
-//            }
-//        }
-
-
 }
