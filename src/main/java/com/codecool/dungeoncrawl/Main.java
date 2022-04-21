@@ -55,6 +55,7 @@ public class Main extends Application {
     final Button saveButton = new Button("Save");
     final Button cancelButton = new Button("Cancel");
     final Button loadButton = new Button("Load");
+    final Button selectButton = new Button("Select");
     Stage primaryStage;
     GridPane ui = new GridPane();
     BorderPane borderPane = new BorderPane();
@@ -98,6 +99,7 @@ public class Main extends Application {
         }
     };
 
+
     EventHandler load = new EventHandler() {
         @Override
         public void handle(Event event) {
@@ -107,23 +109,25 @@ public class Main extends Application {
             VBox dialogVbox = new VBox(20);
             dialogVbox.setAlignment(Pos.CENTER);
             dialogVbox.getChildren().add(new Text("Choose a previous game state: "));
-
-
-
             ComboBox combobox = new ComboBox<String>(FXCollections.observableArrayList(dbManager.getLoadNames()));
             combobox.getSelectionModel().select(0);
             combobox.setId("changed");
-
             dialogVbox.getChildren().add(combobox);
-
-
-
-            dialogVbox.getChildren().add(saveButton);
-
+            dialogVbox.getChildren().add(selectButton);
             dialogVbox.getChildren().add(cancelButton);
             Scene dialogScene = new Scene(dialogVbox, 300, 200);
             dialogLoad.setScene(dialogScene);
             dialogLoad.show();
+        }
+    };
+
+    EventHandler select = new EventHandler() {
+        @Override
+        public void handle(Event event) {
+
+            map = MapLoader.loadMap("/emptyMap1.txt");
+            refresh();
+            dialogLoad.close();
         }
     };
 
@@ -175,6 +179,7 @@ public class Main extends Application {
         ui.addRow(5, inv);
         ui.addRow(6, new Label("Empty"));
         loadButton.setOnAction(load);
+        selectButton.setOnAction(select);
 
         dbManager.setup();
         EventHandler eventHandler = new EventHandler() {
