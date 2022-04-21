@@ -45,7 +45,7 @@ public class GameDatabaseManager {
     }
 
     public void saveAll(Player player, String currentMap, String savedGameName, LinkedList<MovingMonsters> monstersList){
-        TimeStamp currentDate = new Timestamp(System.currentTimeMillis());
+        Timestamp currentDate = new Timestamp(System.currentTimeMillis());
         PlayerModel model = new PlayerModel(player, savedGameName);
         GameState gameState = new GameState(currentMap, currentDate, model);
         savePlayer(model);

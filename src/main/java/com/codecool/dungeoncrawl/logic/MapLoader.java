@@ -3,8 +3,10 @@ package com.codecool.dungeoncrawl.logic;
 import com.codecool.dungeoncrawl.logic.actors.*;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.actors.Skeleton;
+import com.codecool.dungeoncrawl.logic.items.Item;
 
 import java.io.InputStream;
+import java.util.List;
 import java.util.Scanner;
 
 public class MapLoader {
@@ -178,5 +180,37 @@ public class MapLoader {
         }
         return map;
     }
+
+    public static void putContentOnMap(GameMap map , List<Actor> actors, List<Item> items){
+
+        for (int i = 0; i < map.getHeight(); i++) {
+            for (int j = 0; j < map.getWidth(); j++) {
+                for (Actor actor: actors
+                ) {
+                    if(actor.getX() == i && actor.getY() == j){
+                        map.getCell(i,j).setType(CellType.FLOOR);
+                        map.getCell(i,j).setActor(actor);
+                        if( actor instanceof MovingMonsters){
+                            map.addMonster((MovingMonsters) actor);}  // TODO: test
+                    }
+                        if (actor instanceof Player){
+                            map.setPlayer((Player) actor);
+                            map.getCell(i,j).setActor(actor);
+                            actor.setCell(map.getCell(i,j));
+                        }
+                    }
+                }
+                for (Item item:items
+                     ) {
+                    if(item.getX() == i && item.getY() == j){
+                        map.getCell(i,j).setType(item.getCellType());
+                        map.addItem(item);
+                }
+
+            }
+        }
+
+    }
+
 
 }
