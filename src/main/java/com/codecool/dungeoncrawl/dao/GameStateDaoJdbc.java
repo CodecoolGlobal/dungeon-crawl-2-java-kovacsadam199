@@ -54,10 +54,11 @@ public class GameStateDaoJdbc implements GameStateDao {
             String sql = "SELECT id, current_map , saved_at, player_id FROM game_state WHERE player_id = ?";
             PreparedStatement statement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setInt(1,playerId);
-            statement.execute();
-            ResultSet rs = statement.getGeneratedKeys();
+            ResultSet rs = statement.executeQuery();
             rs.next();
-            return new GameState(rs.getString(2), rs.getTimestamp(3));  //TODO: set player to this state at upper level
+            GameState gameState = new GameState(rs.getString(2), rs.getTimestamp(3));
+            gameState.setId(rs.getInt(1));
+            return gameState;  //TODO: set player to this state at upper level
         } catch (SQLException e) {
             throw new RuntimeException("Error while reading all authors", e);
         }

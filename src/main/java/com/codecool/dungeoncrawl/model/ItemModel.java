@@ -12,7 +12,6 @@ public class ItemModel extends BaseModel {
         this.tileName = tileName;
         this.x = x;
         this.y = y;
-        this.isPicked = isPicked;
         this.gameState = gameState;
 
     }
