@@ -13,6 +13,7 @@ public class ItemModel extends BaseModel {
         this.x = x;
         this.y = y;
         this.gameState = gameState;
+        this.isPicked = isPicked;
 
     }
 

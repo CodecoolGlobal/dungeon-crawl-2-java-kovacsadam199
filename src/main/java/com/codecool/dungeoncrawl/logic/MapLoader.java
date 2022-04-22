@@ -249,11 +249,13 @@ public class MapLoader {
     }
 
     private static void createPlayer(PlayerModel playerModel, GameMap map) {
+
         Player player = new Player(map.getCell(playerModel.getX(), playerModel.getY()));
         player.setInventory(Arrays.asList(playerModel.getInventory().split(",")));
         map.setPlayer(player);
         map.getCell(player.getX(),player.getY()).setActor(player);
         player.setCell(map.getCell(player.getX(), player.getY()));
+        System.out.println(player.getInventory());
     }
 
     public static void createItems(List<ItemModel> itemModels,GameMap map){
@@ -263,17 +265,19 @@ public class MapLoader {
                 case "key":
                     Key key = new Key(map.getCell(item.getX(), item.getY()));
                     map.getCell(key.getX(), key.getY()).setItem(key);
+                    map.getCell(key.getX(), key.getY()).setType(CellType.KEY);
                     map.addItem(key);
                     break;
                 case "sword":
                     Sword sword = new Sword(map.getCell(item.getX(), item.getY()));
-                    map.getCell(sword.getX(), sword.getY()).setItem(sword);
+                    map.getCell(sword.getX(), sword.getY()).setType(CellType.SWORD);
                     map.addItem(sword);
 
                     break;
                 case "axe":
                     Axe axe = new Axe(map.getCell(item.getX(), item.getY()));
                     map.getCell(axe.getX(), axe.getY()).setItem(axe);
+                    map.getCell(axe.getX(), axe.getY()).setType(CellType.AXE);
                     map.addItem(axe);
                     break;
             }
