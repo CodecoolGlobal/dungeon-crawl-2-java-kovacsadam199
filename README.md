@@ -1,6 +1,6 @@
 # Dungeon Crawl
 
-## what is it?
+## What is it?
 This is a 2 sprint team project, a Roguelike game using JavaFX canvas.
 The character fights and can pickup items and move to another level.
 The game has save and load functions.
